@@ -326,7 +326,7 @@
     .workspace {
       grid-row: 2;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
+      grid-template-columns: minmax(0, 1fr) 360px;
       gap: 0;
       padding: 20px;
       overflow: auto;
@@ -1583,7 +1583,7 @@
     /* Benchmark Panel (Right Sidebar) */
     .side-toggle {
       position: absolute;
-      right: 328px;
+      right: 348px;
       top: 28px;
       width: 28px;
       height: 28px;
@@ -1642,7 +1642,7 @@
       background: #f8fafc;
       border: 1px solid var(--gray-200);
       border-radius: 12px;
-      padding: 12px;
+      padding: 14px;
       box-shadow: none;
       transition: box-shadow 0.18s ease, border-color 0.18s ease;
     }
@@ -1657,7 +1657,7 @@
     }
 
     .assist-head h3 {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
       color: var(--gray-900);
     }
@@ -1700,7 +1700,7 @@
       background: transparent;
       color: var(--gray-500);
       padding: 0 7px;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
     }
@@ -1755,11 +1755,24 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      flex-wrap: nowrap;
       color: var(--gray-400);
-      font-size: 10px;
+      font-size: 11px;
       margin-bottom: 11px;
       line-height: 1.4;
       font-family: var(--font-mono);
+    }
+
+    .meta > span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .meta > span:last-child {
+      flex: 0 1 auto;
+      text-align: right;
     }
 
     .status-pill {
@@ -1782,7 +1795,7 @@
     .bench-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 13px;
       border: none;
       border-radius: 10px;
       overflow: hidden;
@@ -1932,7 +1945,7 @@
 
     .channel-code {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       padding: 3px 6px;
       background: var(--primary-light);
       color: var(--primary);
@@ -1973,13 +1986,143 @@
     .channel-rate {
       font-family: var(--font-mono);
       font-weight: 800;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--gray-900);
       width: 90px;
       text-align: right;
       border: none;
       background: transparent;
       outline: none;
+    }
+
+    /* Lightweight onboarding guide */
+    .guide-entry-btn {
+      height: 32px;
+      padding: 0 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      background: var(--gray-50);
+      color: var(--gray-700);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .guide-entry-btn:hover {
+      border-color: var(--primary-border);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .guide-layer[hidden] { display: none; }
+
+    .guide-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      pointer-events: none;
+    }
+
+    .guide-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, .38);
+      pointer-events: auto;
+    }
+
+    .guide-highlight {
+      position: fixed;
+      z-index: 3001;
+      display: none;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, .16), 0 8px 24px rgba(15, 23, 42, .18);
+      pointer-events: none;
+      transition: top .18s ease, left .18s ease, width .18s ease, height .18s ease;
+    }
+
+    .guide-popover {
+      position: fixed;
+      z-index: 3002;
+      width: min(360px, calc(100vw - 32px));
+      padding: 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 18px 48px rgba(15, 23, 42, .22);
+      pointer-events: auto;
+    }
+
+    .guide-popover-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .guide-step-count {
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      margin-bottom: 5px;
+    }
+
+    .guide-title {
+      margin: 0;
+      color: var(--gray-900);
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .guide-body {
+      margin: 0;
+      color: var(--gray-600);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .guide-close {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--gray-400);
+      cursor: pointer;
+    }
+
+    .guide-close:hover { background: var(--gray-100); color: var(--gray-700); }
+
+    .guide-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .guide-actions-right { display: flex; gap: 8px; }
+
+    .guide-skip {
+      border: 0;
+      background: transparent;
+      color: var(--gray-500);
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .guide-skip:hover { color: var(--gray-800); }
+
+    @media (max-width: 720px) {
+      .guide-entry-btn { display: none; }
+      .guide-popover { padding: 16px; }
     }
 
     /* Views Framework */
@@ -3309,6 +3452,7 @@
       </div>
       <div class="module-tab">運營交易</div>
       <div class="top-actions">
+        <button class="guide-entry-btn" id="openQuoteGuideBtn" type="button" title="重新打开报价管理新手指引" aria-label="重新打开报价管理新手指引">新手指引</button>
         <button class="icon-btn" title="通知"><svg class="ui-icon"><use href="#i-bell"></use></svg></button>
         <button class="icon-btn" title="語言"><svg class="ui-icon"><use href="#i-globe"></use></svg></button>
         <button class="icon-btn" title="全屏"><svg class="ui-icon"><use href="#i-maximize"></use></svg></button>
@@ -3330,7 +3474,7 @@
       <div class="submenu">
         <div class="submenu-item selected" data-view="quote">快速報價</div>
         <div class="submenu-item" data-view="groupQuote">批量報價</div>
-        <div class="submenu-item" data-view="formulaAdjust">批量公式調估</div>
+        <div class="submenu-item" data-view="formulaAdjust">批量调整公式</div>
         <div class="submenu-item" data-view="history">往期報價</div>
       </div>
       <div class="menu-item"><span class="icon"><svg class="ui-icon"><use href="#i-refresh"></use></svg></span><span>交易管理</span></div>
@@ -3414,7 +3558,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
         <!-- Formula Adjust View -->
         <div class="view" id="formulaAdjustView">
           <div class="panel-header">
-            <h1 class="panel-title">批量公式調估</h1>
+            <h1 class="panel-title">批量调整公式</h1>
           </div>
 
           <div class="formula-adjust-page">
@@ -3441,7 +3585,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="formulaAdjustCustomerFilter">客戶篩選</label>
-                  <input type="text" id="formulaAdjustCustomerFilter" class="form-input" placeholder="可輸入客戶名稱或編號，不填則匹配全部客戶" />
+                  <input type="text" id="formulaAdjustCustomerFilter" class="form-input" placeholder="可輸入完整或片段客戶名稱 / 編號，不填則匹配全部客戶" />
                 </div>
               </div>
 
@@ -3629,15 +3773,14 @@ HKD-TT/CNH-TT： 2.654661329</div>
               <h3>平台基準價</h3>
             </div>
             <div class="assist-actions">
-              <button class="assist-action-btn" id="cancelBenchmark">重置</button>
+              <button class="assist-action-btn" id="cancelBenchmark" style="display: none;">取消</button>
               <button class="assist-action-btn primary" id="saveBenchmark">編輯</button>
               <button class="card-toggle" data-collapse-target="platformCard" title="收起平台基準價"><svg class="ui-icon small"><use href="#i-chevron-up"></use></svg></button>
             </div>
           </div>
           <div class="assist-body">
             <div class="meta">
-              <span>日期：2026/08/06</span>
-              <span id="benchmarkUpdatedAt">更新：11:43:17</span>
+              <span id="benchmarkUpdatedAt">上次保存：2026/08/06 11:43:17</span>
             </div>
             <table class="bench-table">
               <thead>
@@ -3723,6 +3866,29 @@ HKD-TT/CNH-TT： 2.654661329</div>
     </div>
   </div>
 
+  <!-- 报价管理新手指引 -->
+  <div class="guide-layer" id="quoteGuideLayer" hidden>
+    <div class="guide-mask" id="quoteGuideMask"></div>
+    <div class="guide-highlight" id="quoteGuideHighlight"></div>
+    <section class="guide-popover" id="quoteGuidePopover" role="dialog" aria-modal="true" aria-labelledby="quoteGuideTitle">
+      <div class="guide-popover-head">
+        <div>
+          <div class="guide-step-count" id="quoteGuideStepCount">1 / 5</div>
+          <h2 class="guide-title" id="quoteGuideTitle">快速定位客户</h2>
+        </div>
+        <button class="guide-close" id="quoteGuideClose" type="button" aria-label="关闭新手指引"><svg class="ui-icon small"><use href="#i-x"></use></svg></button>
+      </div>
+      <p class="guide-body" id="quoteGuideBody"></p>
+      <div class="guide-actions">
+        <button class="guide-skip" id="quoteGuideSkip" type="button">跳过指引</button>
+        <div class="guide-actions-right">
+          <button class="btn" id="quoteGuidePrev" type="button">上一步</button>
+          <button class="btn primary" id="quoteGuideNext" type="button">下一步</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <!-- 弹窗 1: 新建报价组 Modal -->
   <div class="modal-overlay" id="addGroupModal">
     <div class="modal-card">
@@ -3782,7 +3948,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
     </div>
   </div>
 
-  <!-- 弹窗：批量公式调估保存确认 -->
+  <!-- 弹窗：批量调整公式保存确认 -->
   <div class="modal-overlay" id="formulaAdjustConfirmModal">
     <div class="modal-card" style="max-width: 480px;">
       <div class="modal-header">
@@ -3791,7 +3957,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
       </div>
       <div class="modal-body">
         <p style="margin:0 0 14px; color:var(--gray-700); line-height:1.7;">
-          批量公式調估會直接改動客戶報價配置。請確認本次修改範圍後再保存。
+          批量调整公式會直接改動客戶報價配置。請確認本次修改範圍後再保存。
         </p>
         <div style="display:grid; gap:10px; padding:14px; border-radius:10px; background:var(--gray-50); border:1px solid var(--gray-200);">
           <div style="display:flex; justify-content:space-between; gap:16px;">
@@ -3927,6 +4093,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
     const toast = document.getElementById("toast");
     const platformCard = document.getElementById("platformCard");
     const saveBenchmarkButton = document.getElementById("saveBenchmark");
+    let benchmarkEditSnapshot = null;
     let activeCustomerIndex = 0;
     const defaultBenchmarks = {
       sino: "7.8230",
@@ -4250,9 +4417,15 @@ HKD-TT/CNH-TT： 2.654661329</div>
     }
 
     function setBenchmarkEditMode(isEditing) {
+      if (isEditing && !benchmarkEditSnapshot) {
+        benchmarkEditSnapshot = document.querySelector(".bench-table tbody")?.innerHTML || "";
+      }
       platformCard.classList.toggle("locked", !isEditing);
       saveBenchmarkButton.textContent = isEditing ? "保存" : "編輯";
       saveBenchmarkButton.dataset.mode = isEditing ? "save" : "edit";
+      const cancelBenchmarkButton = document.getElementById("cancelBenchmark");
+      if (cancelBenchmarkButton) cancelBenchmarkButton.style.display = isEditing ? "inline-flex" : "none";
+      if (!isEditing) benchmarkEditSnapshot = null;
     }
 
     function normalizeSearch(value) {
@@ -5900,7 +6073,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
         defaultBenchmarks[input.dataset.key] = input.value;
       });
       const savedAt = currentTimeText();
-      document.getElementById("benchmarkUpdatedAt").textContent = `更新：${savedAt}`;
+      document.getElementById("benchmarkUpdatedAt").textContent = `上次保存：${savedAt}`;
       platformBenchmarkHistory.unshift({
         id: `benchmark_${Date.now()}`,
         savedAt,
@@ -5915,10 +6088,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
     });
 
     document.getElementById("cancelBenchmark").addEventListener("click", () => {
-      document.querySelectorAll(".bench-input").forEach(input => {
-        if (defaultBenchmarks[input.dataset.key]) input.value = defaultBenchmarks[input.dataset.key];
-      });
-      showToast("已重置為最近一次保存值");
+      const body = document.querySelector(".bench-table tbody");
+      if (body && benchmarkEditSnapshot !== null) body.innerHTML = benchmarkEditSnapshot;
+      setBenchmarkEditMode(false);
+      showToast("已取消編輯");
     });
 
     document.getElementById("addPriceType").addEventListener("click", () => {
@@ -6893,6 +7066,215 @@ HKD-TT/CNH-TT： 2.654661329</div>
       }
       syncBenchmarkInputsToState();
       requestAnimationFrame(enhanceBatchResultCards);
+    })();
+
+    // ===== Page-specific quote management onboarding guides =====
+    (function initQuoteOnboardingGuide() {
+      const layer = document.getElementById("quoteGuideLayer");
+      const highlight = document.getElementById("quoteGuideHighlight");
+      const popover = document.getElementById("quoteGuidePopover");
+      const stepCount = document.getElementById("quoteGuideStepCount");
+      const title = document.getElementById("quoteGuideTitle");
+      const body = document.getElementById("quoteGuideBody");
+      const prev = document.getElementById("quoteGuidePrev");
+      const next = document.getElementById("quoteGuideNext");
+      // Bump the guide state version so users who tested the previous guide get
+      // the updated onboarding once on their next first visit.
+      const storageKey = "bitvast.quote-management-guide.v3.completed";
+      let currentStep = 0;
+      let currentView = "quote";
+      let repositionTimer = 0;
+
+      const pageGuides = {
+        quote: {
+          label: "快速报价",
+          steps: [
+            { selectors: ["#customerSelect", "#customerSearch"], title: "搜索客户", body: "输入客户名称或编号，系统会实时给出模糊匹配结果。" },
+            { selectors: ["#customerDropdown", "#customerSelect"], title: "用键盘快速选择", body: "第一项默认高亮。用上下箭头切换，按 Enter 或 Tab 直接选中并加载报价。" },
+            { selectors: ["#quoteItemsContainer .quote-item", "#quoteItemsContainer"], title: "填写报价项", body: "先填写交易类型、前缀和后缀，收起后也会保留这些关键信息。" },
+            { selectors: ["#quoteItemsContainer .formula-editor", "#quoteItemsContainer"], title: "输入报价公式", body: "公式可直接输入，支持变量、加减乘除和括号，变量会插入到当前光标位置。" },
+            { selectors: ["#quoteItemsContainer .insert-variable-btn", "#quoteItemsContainer"], title: "插入公式变量", body: "可从平台基准价、渠道汇率、已报价结果和中介报价中选择变量。" },
+            { selectors: ["#calcBtnTop"], title: "一键更新报价", body: "平台基准价或渠道数据变化后，点击这里按原公式重新计算，并同步结果与更新时间。" },
+            { selectors: ["#quoteOutput", ".output-box"], title: "复制报价文案", body: "报价文案由交易类型分组展示，并由前缀、计算结果和后缀组成，可在下方预览并一键复制。" }
+          ]
+        },
+        groupQuote: {
+          label: "批量报价",
+          steps: [
+            { selectors: ["#groupQuoteView .group-column:first-child", "#groupList"], title: "选择报价组", body: "左侧报价组用于组织不同报价场景，点击组名查看对应客户。" },
+            { selectors: ["#groupQuoteView .group-column:nth-child(2)", "#groupCustomerList"], title: "查看组内客户", body: "中间栏展示当前报价组的客户，点击客户可以快速定位其报价卡片。" },
+            { selectors: ["#resultsCardsContainer .result-card", "#resultsCardsContainer"], title: "查看客户报价", body: "右侧按客户展示交易类型、前缀、公式摘要、结果和最新更新时间。" },
+            { selectors: ["#resultsCardsContainer .batch-card-recalc", "#resultsCardsContainer"], title: "重新计算单个客户", body: "点击客户卡片上的重新计算，公式不变，系统会抓取最新变量并更新该客户全部报价项。" },
+            { selectors: ["#batchRecalcGroupBtn", "#batchCopyBtn"], title: "批量操作", body: "重新计算全组会更新当前组全部客户；一键复制全组用于复制整组报价文本。" },
+            { selectors: ["#downloadCsvBtn"], title: "导出客户数据", body: "需要留存或进一步处理时，可从右下角导出全部客户报价数据。" }
+          ]
+        },
+        formulaAdjust: {
+          label: "批量调整公式",
+          steps: [
+            { selectors: ["#quickBatchSearchParam"], title: "输入目标参数", body: "输入平台基准价、XE 渠道变量或公式片段，例如 +3、sino每日价格。" },
+            { selectors: ["#quickBatchReplaceParam"], title: "填写替换内容", body: "替换内容可以稍后填写，先匹配数据，再补充新的公式片段。" },
+            { selectors: ["#formulaAdjustCustomerFilter"], title: "筛选客户", body: "可输入完整或片段名称、编号缩小范围，不填写则匹配全部客户。" },
+            { selectors: ["#quickBatchMatchTableBody", ".batch-formula-table-wrap"], title: "核对匹配结果", body: "核对当前公式、调整后公式、当前结果和预计结果，只勾选需要修改的报价项。" },
+            { selectors: ["#formulaAdjustApplyBtn"], title: "确认保存并同步", body: "保存前会展示修改范围。确认后会同步更新快速报价、批量报价和往期报价。" }
+          ]
+        },
+        history: {
+          label: "往期报价",
+          steps: [
+            { selectors: [".history-tabs"], title: "切换历史类型", body: "平台基准价历史和客户报价历史分别放在两个页签中。" },
+            { selectors: ["#platformHistoryPane .history-filter-card", "#platformHistoryDate"], title: "查看基准价历史", body: "选择报价日期并搜索，查看当天统一保存的平台基准价快照。" },
+            { selectors: ["#customerHistoryPane .history-toolbar", "#historyCustomerSearch"], title: "搜索客户历史", body: "已自动切换到客户报价页。按客户名称或编号搜索，并结合日期范围查看历史结果。" },
+            { selectors: ["#customerHistoryPane .history-table", "#customerHistoryPane"], title: "按交易类型查看", body: "表格按交易类型分行、按日期分列，方便对比不同日期的报价变化。" },
+            { selectors: [".history-quote-button", "#customerHistoryPane"], title: "查看报价明细", body: "点击具体报价结果，右侧抽屉会展示公式、变量取值、加点、舍入方式和最终结果。" }
+          ]
+        }
+      };
+
+      function getStoredState() {
+        try { return JSON.parse(window.localStorage.getItem(storageKey) || "{}"); } catch (error) { return {}; }
+      }
+
+      function markViewComplete(viewName) {
+        try {
+          const state = getStoredState();
+          state[viewName] = true;
+          window.localStorage.setItem(storageKey, JSON.stringify(state));
+        } catch (error) { /* private mode */ }
+      }
+
+      function getCurrentView() {
+        return document.querySelector(".submenu-item.selected")?.dataset.view || "quote";
+      }
+
+      function resolveTarget(step) {
+        return step.selectors.map(selector => document.querySelector(selector)).find(Boolean) || null;
+      }
+
+      function syncHistoryTabForStep() {
+        if (currentView !== "history") return;
+        const tabName = currentStep >= 2 ? "customer" : "platform";
+        const tab = document.querySelector(`.history-tab[data-history-tab="${tabName}"]`);
+        if (tab && !tab.classList.contains("active")) tab.click();
+      }
+
+      function setHighlight(rect) {
+        const pad = 6;
+        const left = Math.max(4, rect.left - pad);
+        const top = Math.max(4, rect.top - pad);
+        const right = Math.min(window.innerWidth - 4, rect.right + pad);
+        const bottom = Math.min(window.innerHeight - 4, rect.bottom + pad);
+        highlight.style.display = "block";
+        highlight.style.left = `${left}px`;
+        highlight.style.top = `${top}px`;
+        highlight.style.width = `${Math.max(0, right - left)}px`;
+        highlight.style.height = `${Math.max(0, bottom - top)}px`;
+      }
+
+      function placePopover(rect) {
+        const gap = 18;
+        const margin = 16;
+        const popRect = popover.getBoundingClientRect();
+        let left;
+        let top;
+
+        if (window.innerWidth - rect.right >= popRect.width + gap + margin) {
+          left = rect.right + gap;
+          top = rect.top + Math.min(18, Math.max(0, rect.height / 2 - popRect.height / 2));
+        } else if (rect.left >= popRect.width + gap + margin) {
+          left = rect.left - popRect.width - gap;
+          top = rect.top + Math.min(18, Math.max(0, rect.height / 2 - popRect.height / 2));
+        } else {
+          left = Math.max(margin, Math.min(window.innerWidth - popRect.width - margin, rect.left));
+          top = rect.bottom + gap;
+          if (top + popRect.height > window.innerHeight - margin) top = rect.top - popRect.height - gap;
+        }
+
+        popover.style.left = `${Math.max(margin, Math.min(window.innerWidth - popRect.width - margin, left))}px`;
+        popover.style.top = `${Math.max(margin, Math.min(window.innerHeight - popRect.height - margin, top))}px`;
+      }
+
+      function positionCurrentStep() {
+        if (layer.hidden) return;
+        const guide = pageGuides[currentView] || pageGuides.quote;
+        const target = resolveTarget(guide.steps[currentStep]);
+        if (!target) return;
+        const rect = target.getBoundingClientRect();
+        setHighlight(rect);
+        placePopover(rect);
+      }
+
+      function updateStep() {
+        const guide = pageGuides[currentView] || pageGuides.quote;
+        const step = guide.steps[currentStep];
+        syncHistoryTabForStep();
+        stepCount.textContent = `${guide.label} · ${currentStep + 1} / ${guide.steps.length}`;
+        title.textContent = step.title;
+        body.textContent = step.body;
+        prev.disabled = currentStep === 0;
+        prev.style.visibility = currentStep === 0 ? "hidden" : "visible";
+        next.textContent = currentStep === guide.steps.length - 1 ? "完成" : "下一步";
+        requestAnimationFrame(() => {
+          const target = resolveTarget(step);
+          if (target) {
+            target.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
+            window.clearTimeout(repositionTimer);
+            repositionTimer = window.setTimeout(positionCurrentStep, 220);
+          } else {
+            positionCurrentStep();
+          }
+        });
+      }
+
+      function closeGuide(markCompleted = true) {
+        if (markCompleted) markViewComplete(currentView);
+        layer.hidden = true;
+        highlight.style.display = "none";
+        window.removeEventListener("resize", positionCurrentStep);
+        window.removeEventListener("scroll", positionCurrentStep, true);
+      }
+
+      function startGuide(viewName = getCurrentView()) {
+        currentView = pageGuides[viewName] ? viewName : "quote";
+        currentStep = 0;
+        layer.hidden = false;
+        window.addEventListener("resize", positionCurrentStep);
+        window.addEventListener("scroll", positionCurrentStep, true);
+        updateStep();
+      }
+
+      document.getElementById("openQuoteGuideBtn")?.addEventListener("click", () => startGuide(getCurrentView()));
+      document.getElementById("quoteGuideClose")?.addEventListener("click", () => closeGuide(false));
+      document.getElementById("quoteGuideSkip")?.addEventListener("click", () => closeGuide(true));
+      document.getElementById("quoteGuideMask")?.addEventListener("click", () => closeGuide(false));
+      prev?.addEventListener("click", () => {
+        if (currentStep > 0) { currentStep -= 1; updateStep(); }
+      });
+      next?.addEventListener("click", () => {
+        const guide = pageGuides[currentView] || pageGuides.quote;
+        if (currentStep >= guide.steps.length - 1) closeGuide(true);
+        else { currentStep += 1; updateStep(); }
+      });
+
+      document.addEventListener("click", event => {
+        const menu = event.target.closest(".submenu-item[data-view]");
+        if (!menu || !pageGuides[menu.dataset.view]) return;
+        closeGuide(false);
+        window.setTimeout(() => {
+          const state = getStoredState();
+          if (!state[menu.dataset.view]) startGuide(menu.dataset.view);
+        }, 450);
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !layer.hidden) closeGuide(false);
+      });
+
+      window.setTimeout(() => {
+        const viewName = getCurrentView();
+        const state = getStoredState();
+        if (!state[viewName]) startGuide(viewName);
+      }, 700);
     })();
   </script>
 </body>
