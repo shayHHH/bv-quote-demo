@@ -398,6 +398,8 @@
       padding: 12px 16px;
       border-radius: 8px;
       border: 1px solid var(--gray-200);
+      flex-wrap: wrap;
+      min-width: 0;
     }
 
     .label {
@@ -431,9 +433,46 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      min-width: 260px;
+      min-width: 220px;
       background: #ffffff;
       font-weight: 500;
+    }
+
+    .customer-row #customerSelect {
+      flex: 1 1 320px;
+      max-width: 520px;
+    }
+
+    .customer-row > .btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1180px) {
+      .customer-row {
+        align-items: flex-start;
+      }
+
+      .customer-row .label {
+        flex: 0 0 100%;
+      }
+
+      .customer-row #customerSelect {
+        flex: 1 1 240px;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .customer-row #customerSelect,
+      .customer-row > .btn {
+        flex: 1 1 100%;
+        width: 100%;
+      }
+
+      .customer-row > .btn {
+        justify-content: center;
+      }
     }
 
     .customer-search-input {
@@ -4120,9 +4159,9 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
     const brokerQuoteData = {
       "中介林 - 20001": [
-        { code: "broker_lin_usd", label: "中介林美元", value: 7.8150 },
-        { code: "broker_lin_hkd", label: "中介林港币", value: 7.8260 },
-        { code: "broker_lin_hkd_tt_cnh_tt", label: "中介林 HKD-TT:CNH-TT", value: 2.6547 }
+        { code: "broker_lin_usd", label: "中介林美元", tradeType: "美元", prefix: "sino", value: 7.8150 },
+        { code: "broker_lin_hkd", label: "中介林港币", tradeType: "港币", prefix: "sgb", value: 7.8260 },
+        { code: "broker_lin_hkd_tt_cnh_tt", label: "中介林 HKD-TT:CNH-TT", tradeType: "HKD-TT:CNH-TT", prefix: "", value: 2.6547 }
       ]
     };
 
@@ -4778,11 +4817,9 @@ HKD-TT/CNH-TT： 2.654661329</div>
     }
 
     function variableDisplayLabel(code, label) {
-      const labelMap = {
-        hkd_u: "XE-HKD : USDT",
-        u_hkd: "XE-USDT : HKD"
-      };
-      return labelMap[code] || label;
+      // Platform benchmark variables use the configured price type directly.
+      // Channel variables already carry their own XE label in `label`.
+      return label;
     }
 
     function variableBadgeHtml(code, label) {
@@ -4853,22 +4890,35 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return brokerQuoteData[brokerKey] || [];
     }
 
+    function allBrokerQuoteRows() {
+      return Object.values(brokerQuoteData).flat();
+    }
+
+    function currentBrokerName() {
+      return brokerInfo.textContent.trim().split(" - ")[0].trim() || "中介";
+    }
+
     function variableGroups() {
+      const customer = currentQuickCustomerIdentity();
       const quoted = quoteItems.map((item, index) => ({
         code: `quote_${index}`,
-        label: `已報價結果 #${index + 1} ${item.tradeType || item.prefix}`,
+        label: `${customer.name || "当前客户"}${item.tradeType || ""}${item.prefix || ""}`,
         value: computeQuoteItem(index).rawValue || 0
+      }));
+      const broker = brokerQuoteRows().map(item => ({
+        ...item,
+        label: `${currentBrokerName()}${item.tradeType || item.label || ""}${item.prefix || ""}`
       }));
       return {
         channel: channelRows(),
         base: benchmarkRows(),
         quoted,
-        broker: brokerQuoteRows()
+        broker
       };
     }
 
     function getVariableValue(code) {
-      const direct = [...channelRows(), ...benchmarkRows(), ...brokerQuoteRows()].find(item => item.code === code);
+      const direct = [...channelRows(), ...benchmarkRows(), ...brokerQuoteRows(), ...allBrokerQuoteRows()].find(item => item.code === code);
       if (direct) return Number(direct.value || 0);
       if (code.startsWith("quote_")) {
         const index = Number(code.replace("quote_", ""));
@@ -5106,8 +5156,55 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return items.map(item => ({ ...item, tradeType: item.tradeType || item.prefix || "" }));
     }
 
+    function mediatorLinQuoteItems() {
+      return [
+        {
+          tradeType: "美元",
+          prefix: "sino",
+          suffix: "(含手續費)",
+          formulaHtml: variableBadgeHtml("sino", "sino每日價格"),
+          brokerPoint: 0,
+          bvPoint: 0,
+          digits: 4,
+          roundMode: "45",
+          expanded: false,
+          lastQuotedAt: "-",
+          lastResult: null
+        },
+        {
+          tradeType: "港幣",
+          prefix: "sgb",
+          suffix: "",
+          formulaHtml: `${variableBadgeHtml("sino", "sino每日價格")} + 3`,
+          brokerPoint: 0,
+          bvPoint: 0,
+          digits: 4,
+          roundMode: "45",
+          expanded: false,
+          lastQuotedAt: "-",
+          lastResult: null
+        },
+        {
+          tradeType: "HKD-TT/CNH-TT",
+          prefix: "sino",
+          suffix: "",
+          formulaHtml: variableBadgeHtml("broker_lin_hkd_tt_cnh_tt", "中介林 HKD-TT:CNH-TT"),
+          brokerPoint: 0,
+          bvPoint: 0,
+          digits: 5,
+          roundMode: "45",
+          expanded: true,
+          lastQuotedAt: "-",
+          lastResult: null
+        }
+      ];
+    }
+
     function defaultQuoteItemsForCustomer(customer) {
       const code = customerCode(customer);
+      if (code === "20001") {
+        return mediatorLinQuoteItems();
+      }
       if (code.startsWith("2")) {
         return [
           {
@@ -5198,6 +5295,29 @@ HKD-TT/CNH-TT： 2.654661329</div>
       ];
     }
 
+    function mergeMissingDefaultQuoteItems(items, customer) {
+      const currentItems = cloneQuoteItems(Array.isArray(items) ? items : []);
+      const keys = new Set(currentItems.map(item => quoteUniqueKey({
+        tradeType: item.tradeType,
+        prefix: item.prefix,
+        formula: quoteSummaryFormula(item),
+        formulaHtml: item.formulaHtml
+      })));
+      cloneQuoteItems(defaultQuoteItemsForCustomer(customer)).forEach(item => {
+        const key = quoteUniqueKey({
+          tradeType: item.tradeType,
+          prefix: item.prefix,
+          formula: quoteSummaryFormula(item),
+          formulaHtml: item.formulaHtml
+        });
+        if (!keys.has(key)) {
+          currentItems.push(item);
+          keys.add(key);
+        }
+      });
+      return currentItems;
+    }
+
     function saveCurrentQuickQuoteConfig() {
       if (!activeQuickCustomerKey) return;
       quoteItems.forEach((item, index) => {
@@ -5210,7 +5330,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
     function loadQuickQuoteConfigForCustomer(customer) {
       const key = customerCode(customer);
       activeQuickCustomerKey = key;
-      quoteItems = cloneQuoteItems(quickQuoteConfigs[key] || defaultQuoteItemsForCustomer(customer));
+      quoteItems = mergeMissingDefaultQuoteItems(quickQuoteConfigs[key] || defaultQuoteItemsForCustomer(customer), customer);
+      quickQuoteConfigs[key] = cloneQuoteItems(quoteItems);
     }
 
     function currentQuickCustomerIdentity() {
@@ -5238,6 +5359,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
           prefix: item.prefix || `報價項${index + 1}`,
           suffix: item.suffix || "",
           formula: quoteSummaryFormula(item),
+          formulaHtml: item.formulaHtml || "",
           result: status.result,
           updatedAt: item.lastQuotedAt || "-",
           brokerPoint: item.brokerPoint,
@@ -5250,6 +5372,45 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
     function cloneQuotes(quotes) {
       return quotes.map(quote => ({ ...quote }));
+    }
+
+    function quoteUniqueKey(quote) {
+      return [
+        quote.tradeType || "",
+        quote.prefix || "",
+        quote.formula || quoteSummaryFormula(quote) || quote.formulaHtml || ""
+      ].join("::");
+    }
+
+    function quoteSnapshotFromItem(item, index) {
+      const result = previewFormulaResult(item.formulaHtml || "", item);
+      return {
+        key: `default_${index}`,
+        tradeType: item.tradeType || item.prefix || `報價項${index + 1}`,
+        prefix: item.prefix || `報價項${index + 1}`,
+        suffix: item.suffix || "",
+        formula: quoteSummaryFormula(item),
+        formulaHtml: item.formulaHtml || "",
+        result,
+        updatedAt: item.lastQuotedAt || "-",
+        brokerPoint: item.brokerPoint,
+        bvPoint: item.bvPoint,
+        digits: item.digits,
+        roundMode: item.roundMode
+      };
+    }
+
+    function mergeMissingDefaultQuotes(customer) {
+      const source = batchCustomerSource(customer);
+      const defaultItems = cloneQuoteItems(defaultQuoteItemsForCustomer(source));
+      const currentQuotes = Array.isArray(customer.quotes) ? cloneQuotes(customer.quotes) : [];
+      const keys = new Set(currentQuotes.map(quoteUniqueKey));
+      defaultItems.forEach((item, index) => {
+        const snapshot = quoteSnapshotFromItem(item, index);
+        if (!keys.has(quoteUniqueKey(snapshot))) currentQuotes.push(snapshot);
+      });
+      customer.quotes = currentQuotes;
+      return customer.quotes;
     }
 
     function batchCustomerSource(customer) {
@@ -5265,11 +5426,13 @@ HKD-TT/CNH-TT： 2.654661329</div>
     function ensureBatchCustomerQuotes(customer) {
       if (Array.isArray(customer.quotes) && customer.quotes.length) {
         customer.quotes = cloneQuotes(customer.quotes);
+        mergeMissingDefaultQuotes(customer);
         return customer.quotes;
       }
       const source = batchCustomerSource(customer);
       const code = customerCode(source) || customerCode(customer);
-      const items = cloneQuoteItems(quickQuoteConfigs[code] || defaultQuoteItemsForCustomer(source));
+      const items = mergeMissingDefaultQuoteItems(quickQuoteConfigs[code] || defaultQuoteItemsForCustomer(source), source);
+      if (code) quickQuoteConfigs[code] = cloneQuoteItems(items);
       customer.quotes = quoteSnapshotFromItems(items);
       return customer.quotes;
     }
@@ -5812,7 +5975,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
           .forEach(customer => {
             const code = customerCode(customer);
             const identity = customerIdentityFromCustomer(customer);
-            const items = cloneQuoteItems(quickQuoteConfigs[code] || defaultQuoteItemsForCustomer(customer));
+            const items = mergeMissingDefaultQuoteItems(quickQuoteConfigs[code] || defaultQuoteItemsForCustomer(customer), customer);
+            quickQuoteConfigs[code] = cloneQuoteItems(items);
             items.forEach((item, index) => {
               const currentFormula = quoteSummaryFormula(item);
               const replaceResult = replaceFormulaTextFragment(currentFormula, target, replacement);
@@ -5953,7 +6117,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
       selectedItems.forEach(match => {
         const customer = formulaAdjustCustomerPool().find(item => customerCode(item) === match.customerCode);
         if (!customer) return;
-        const items = cloneQuoteItems(quickQuoteConfigs[match.customerCode] || defaultQuoteItemsForCustomer(customer));
+        const items = mergeMissingDefaultQuoteItems(quickQuoteConfigs[match.customerCode] || defaultQuoteItemsForCustomer(customer), customer);
         if (!items[match.quoteIndex]) return;
         items[match.quoteIndex].formulaHtml = match.nextFormulaHtml;
         items[match.quoteIndex].lastResult = match.preview;
@@ -6831,6 +6995,17 @@ HKD-TT/CNH-TT： 2.654661329</div>
             map.set(normalizeFormulaToken(row.code), value);
             map.set(normalizeFormulaToken(row.label), value);
             map.set(normalizeFormulaToken(normalizeChannelLabel(row.label)), value);
+          });
+        }
+        if (typeof allBrokerQuoteRows === "function") {
+          allBrokerQuoteRows().forEach(row => {
+            const value = String(row.value ?? "").replace(/,/g, "").trim();
+            if (!/^-?\d+(?:\.\d+)?$/.test(value)) return;
+            if (row.code) map.set(normalizeFormulaToken(row.code), value);
+            if (row.label) map.set(normalizeFormulaToken(row.label), value);
+            if (row.label) map.set(normalizeFormulaToken(String(row.label).replace(/:/g, "/")), value);
+            if (row.tradeType) map.set(normalizeFormulaToken(`中介林 ${row.tradeType}`), value);
+            if (row.tradeType) map.set(normalizeFormulaToken(`中介林 ${String(row.tradeType).replace(/:/g, "/")}`), value);
           });
         }
         return map;
