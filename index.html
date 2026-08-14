@@ -1542,6 +1542,11 @@
       padding: 16px;
     }
 
+    .quote-card .customer-info + .output-box {
+      margin-top: 14px;
+      margin-bottom: 18px;
+    }
+
     .output-header {
       display: flex;
       align-items: center;
@@ -3447,7 +3452,144 @@
       display: block;
     }
 
-  </style>
+  .output-box {
+    min-height: 260px;
+  }
+
+  .quote-preview-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  .output-box .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 36px;
+    margin-bottom: 12px;
+  }
+
+  .quote-format-menu-wrap {
+    position: relative;
+  }
+
+  .quote-format-btn {
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid #d8e2f0;
+    border-radius: 8px;
+    background: #fff;
+    color: #334155;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .quote-format-btn:hover {
+    border-color: #b8c7db;
+    background: #f8fbff;
+  }
+
+  .quote-format-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    width: 230px;
+    padding: 12px;
+    border: 1px solid #d8e2f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.14);
+    z-index: 30;
+    display: none;
+  }
+
+  .quote-format-menu.open {
+    display: block;
+  }
+
+  .quote-format-title {
+    color: #8da0b8;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .quote-format-option {
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #334155;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .quote-format-option input {
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+  }
+
+  #quoteOutput {
+    height: 128px;
+    min-height: 128px;
+    max-height: 128px;
+    overflow: auto;
+    margin-bottom: 10px;
+    background: #ffffff;
+    border: 1px solid #e0e8f4;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .quote-output-select-panel {
+    border-top: 1px solid #e7eef8;
+    padding-top: 10px;
+  }
+
+  .quote-output-select-hint {
+    color: #8da0b8;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .quote-output-check-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    max-height: 84px;
+    overflow: auto;
+  }
+
+  .quote-output-check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid #e0e8f4;
+    border-radius: 8px;
+    background: #f8fbff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .quote-output-check-item input {
+    width: 14px;
+    height: 14px;
+    accent-color: #2563eb;
+  }
+</style>
 </head>
 <body>
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;">
@@ -3577,12 +3719,6 @@
               </div>
             </div>
 
-            <div class="quote-items" id="quoteItemsContainer"></div>
-
-            <div class="table-actions formula-actions">
-              <button class="add-quote-item-btn" id="addRow"><svg class="ui-icon small"><use href="#i-plus"></use></svg>新增報價配置項</button>
-            </div>
-
             <div class="output-box">
               <div class="output-header">
                 <div class="output-title">對客報價文本預覽</div>
@@ -3590,6 +3726,12 @@
               </div>
               <div class="output-content" id="quoteOutput">ravi(10004)：
 HKD-TT/CNH-TT： 2.654661329</div>
+            </div>
+
+            <div class="quote-items" id="quoteItemsContainer"></div>
+
+            <div class="table-actions formula-actions">
+              <button class="add-quote-item-btn" id="addRow"><svg class="ui-icon small"><use href="#i-plus"></use></svg>新增報價配置項</button>
             </div>
           </div>
         </div>
@@ -7452,5 +7594,199 @@ HKD-TT/CNH-TT： 2.654661329</div>
       }, 700);
     })();
   </script>
+<script>
+  (function initQuotePreviewFormatter() {
+    const state = {
+      includeHeader: true,
+      groupByType: true,
+      includeSuffix: true,
+      header: '',
+      items: [],
+      selected: new Set(),
+      selfUpdating: false
+    };
+
+    function parseQuoteText(text) {
+      const lines = String(text || '').split('\n');
+      const parsed = [];
+      let header = '';
+      let currentType = '';
+      lines.forEach((raw) => {
+        const line = raw.trim();
+        if (!line) return;
+        if (!header && /[:：]$/.test(line) && !line.includes('--')) {
+          header = line;
+          return;
+        }
+        if (line.endsWith('--')) {
+          currentType = line.replace(/--$/, '').trim();
+          return;
+        }
+        const colonIndex = line.search(/[:：]/);
+        if (colonIndex > -1) {
+          const prefix = line.slice(0, colonIndex).trim();
+          const value = line.slice(colonIndex + 1).trim();
+          const type = currentType || '未分组';
+          const key = `${type}__${prefix}`;
+          parsed.push({ key, type, prefix, value });
+        }
+      });
+      return { header, items: parsed };
+    }
+
+    function stripSuffix(value) {
+      return String(value || '')
+        .replace(/\s*[（(][^()（）]*[）)]\s*$/g, '')
+        .trim();
+    }
+
+    function formatQuoteText(header, items) {
+      const selectedItems = items.filter((item) => state.selected.has(item.key));
+      const output = [];
+      if (state.includeHeader && header) output.push(header);
+
+      if (state.groupByType) {
+        const groups = [];
+        selectedItems.forEach((item) => {
+          let group = groups.find((entry) => entry.type === item.type);
+          if (!group) {
+            group = { type: item.type, items: [] };
+            groups.push(group);
+          }
+          group.items.push(item);
+        });
+        groups.forEach((group, index) => {
+          if (output.length && index === 0) output.push('');
+          if (index > 0) output.push('');
+          output.push(`${group.type}--`);
+          group.items.forEach((item) => {
+            output.push(`${item.prefix}: ${state.includeSuffix ? item.value : stripSuffix(item.value)}`);
+          });
+        });
+      } else {
+        if (output.length && selectedItems.length) output.push('');
+        selectedItems.forEach((item) => {
+          output.push(`${item.type} ${item.prefix}: ${state.includeSuffix ? item.value : stripSuffix(item.value)}`);
+        });
+      }
+
+      return output.join('\n');
+    }
+
+    function renderCheckList(list, items) {
+      if (!list) return;
+      list.innerHTML = '';
+      items.forEach((item) => {
+        const label = document.createElement('label');
+        label.className = 'quote-output-check-item';
+        label.innerHTML = `<input type="checkbox" data-key="${item.key}" ${state.selected.has(item.key) ? 'checked' : ''}><span>${item.type} / ${item.prefix}</span>`;
+        list.appendChild(label);
+      });
+    }
+
+    function applyPreview(parsed) {
+      const output = document.getElementById('quoteOutput');
+      const list = document.getElementById('quoteOutputCheckList');
+      if (!output) return;
+      state.header = parsed.header || state.header;
+      state.items = parsed.items;
+      parsed.items.forEach((item) => state.selected.add(item.key));
+      renderCheckList(list, parsed.items);
+      state.selfUpdating = true;
+      output.textContent = formatQuoteText(state.header, parsed.items);
+      requestAnimationFrame(() => {
+        state.selfUpdating = false;
+      });
+    }
+
+    function enhanceOutputBox() {
+      const output = document.getElementById('quoteOutput');
+      const box = output && output.closest('.output-box');
+      if (!output || !box || box.dataset.formatEnhanced === '1') return;
+      box.dataset.formatEnhanced = '1';
+
+      const header = box.querySelector('.output-header');
+      const copyBtn = document.getElementById('copyBtn');
+      const toolbar = document.createElement('div');
+      toolbar.className = 'quote-preview-toolbar';
+      toolbar.innerHTML = `
+        <div class="quote-format-menu-wrap">
+          <button type="button" class="quote-format-btn" id="quoteFormatBtn">格式设置⌄</button>
+          <div class="quote-format-menu" id="quoteFormatMenu">
+            <div class="quote-format-title">导出格式配置</div>
+            <label class="quote-format-option">包含客户抬头 <input type="checkbox" data-format="includeHeader" checked></label>
+            <label class="quote-format-option">按交易类型分组 <input type="checkbox" data-format="groupByType" checked></label>
+            <label class="quote-format-option">包含后缀 <input type="checkbox" data-format="includeSuffix" checked></label>
+          </div>
+        </div>
+      `;
+
+      if (header) {
+        if (copyBtn) toolbar.appendChild(copyBtn);
+        header.appendChild(toolbar);
+      } else {
+        box.insertBefore(toolbar, output);
+      }
+
+      const panel = document.createElement('div');
+      panel.className = 'quote-output-select-panel';
+      panel.innerHTML = `
+        <div class="quote-output-select-hint">勾选后将实时更新上方报价文本，默认全选。</div>
+        <div class="quote-output-check-list" id="quoteOutputCheckList"></div>
+      `;
+      output.insertAdjacentElement('afterend', panel);
+
+      const formatBtn = document.getElementById('quoteFormatBtn');
+      const formatMenu = document.getElementById('quoteFormatMenu');
+      formatBtn && formatBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        formatMenu && formatMenu.classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        formatMenu && formatMenu.classList.remove('open');
+      });
+      formatMenu && formatMenu.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+
+      box.addEventListener('change', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) return;
+        if (target.dataset.format) {
+          state[target.dataset.format] = target.checked;
+          applyPreview({ header: state.header, items: state.items });
+          return;
+        }
+        if (target.dataset.key) {
+          if (target.checked) state.selected.add(target.dataset.key);
+          else state.selected.delete(target.dataset.key);
+          state.selfUpdating = true;
+          output.textContent = formatQuoteText(state.header, state.items);
+          requestAnimationFrame(() => {
+            state.selfUpdating = false;
+          });
+        }
+      });
+
+      const observer = new MutationObserver(() => {
+        if (state.selfUpdating) return;
+        const parsed = parseQuoteText(output.textContent);
+        state.selected = new Set(parsed.items.map((item) => item.key));
+        applyPreview(parsed);
+      });
+      observer.observe(output, { childList: true, characterData: true, subtree: true });
+
+      const initial = parseQuoteText(output.textContent);
+      state.selected = new Set(initial.items.map((item) => item.key));
+      applyPreview(initial);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', enhanceOutputBox);
+    } else {
+      enhanceOutputBox();
+    }
+  })();
+</script>
 </body>
 </html>
