@@ -2999,6 +2999,196 @@
       font-size: 13px;
     }
 
+.batch-copy-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      margin: 0 0 12px;
+      background: #f8fbff;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+  top: 0;
+  z-index: 8;
+}
+
+.batch-copy-toolbar-compact {
+  justify-content: flex-end;
+  padding: 0 0 12px;
+  margin: 0 0 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.batch-copy-toolbar-main,
+.batch-copy-toolbar-actions {
+  display: flex;
+  align-items: center;
+      gap: 8px;
+      min-width: 0;
+  flex-wrap: wrap;
+}
+
+.batch-copy-toolbar-compact .batch-copy-toolbar-actions {
+  margin-left: auto;
+}
+
+    .batch-copy-toolbar-title {
+      color: var(--gray-700);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .batch-copy-filter,
+    .batch-copy-type-filter {
+      height: 32px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--gray-800);
+      font-size: 13px;
+      padding: 0 10px;
+      outline: none;
+    }
+
+    .batch-copy-filter {
+      width: 180px;
+    }
+
+    .batch-copy-type-filter {
+      width: 132px;
+    }
+
+    .batch-copy-filter:focus,
+    .batch-copy-type-filter:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+    }
+
+    .batch-copy-count-text {
+      color: var(--gray-500);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .small-btn {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .btn.subtle {
+      background: #fff;
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+      box-shadow: none;
+    }
+
+    .btn.subtle:hover {
+      color: var(--primary);
+      border-color: #bdd2f6;
+      background: #f8fbff;
+    }
+
+    .batch-selectable-result-card .card-title-group {
+      flex: 1;
+    }
+
+    .batch-card-check-wrap,
+    .batch-row-check-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .batch-card-check-wrap input,
+    .batch-row-check-wrap input {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .batch-quote-selectable-row {
+      gap: 12px;
+    }
+
+    .batch-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .batch-card-action {
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #8ba0bc;
+      cursor: pointer;
+      transition: .15s ease;
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .batch-card-action .ui-icon.small {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+    }
+
+    .batch-card-recalc {
+      width: auto;
+      min-width: 88px;
+      padding: 0 11px;
+      gap: 5px;
+      border: 1px solid #dce6f3;
+      background: #f8fbff;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, .04);
+    }
+
+    .batch-card-recalc:hover {
+      border-color: #bfd3f8;
+      background: #eef5ff;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, .12);
+    }
+
+    .batch-card-copy {
+      width: 28px;
+      padding: 0;
+      color: #94a3b8;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .batch-card-copy:hover {
+      color: #64748b;
+      background: transparent;
+    }
+
+    .batch-empty-state {
+      background: #fff;
+      padding: 40px;
+      text-align: center;
+      border-radius: 10px;
+      color: var(--gray-400);
+      border: 1px dashed var(--gray-300);
+    }
+
     /* 底部固定下载栏 */
     .download-floating-bar {
       position: absolute;
@@ -3588,6 +3778,98 @@
     width: 14px;
     height: 14px;
     accent-color: #2563eb;
+  }
+  .batch-copy-control {
+    margin: 14px 0 16px;
+    padding: 12px;
+    border: 1px solid #dce6f3;
+    border-radius: 12px;
+    background: #f8fbff;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .batch-copy-control input,
+  .batch-copy-control select {
+    height: 34px;
+    border: 1px solid #cfdbea;
+    border-radius: 8px;
+    background: #fff;
+    color: #1f2937;
+    padding: 0 10px;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .batch-copy-control input {
+    min-width: 220px;
+    flex: 1 1 260px;
+  }
+
+  .batch-copy-control select {
+    min-width: 140px;
+  }
+
+  .batch-copy-control .batch-copy-btn {
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .batch-copy-control .batch-copy-ghost {
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid #cfdbea;
+    border-radius: 8px;
+    background: #fff;
+    color: #475569;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .batch-copy-control .batch-copy-count {
+    color: #64748b;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .batch-card-select {
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .batch-quote-row-select {
+    width: 14px;
+    height: 14px;
+    accent-color: #2563eb;
+    margin-right: 8px;
+    flex: 0 0 auto;
+  }
+
+  .batch-quote-row-hidden,
+  .batch-customer-card-hidden {
+    display: none !important;
+  }
+
+  .batch-quote-line-enhanced {
+    display: grid !important;
+    grid-template-columns: auto minmax(56px, 80px) minmax(56px, 88px) minmax(180px, 1fr) minmax(86px, auto);
+    align-items: center;
+    gap: 10px;
+  }
+
+  .batch-quote-line-enhanced .batch-quote-result-cell {
+    justify-self: end;
   }
 </style>
 </head>
@@ -4871,30 +5153,42 @@ HKD-TT/CNH-TT： 2.654661329</div>
       renderPlatformBenchmarkHistory();
     });
 
+    function switchQuoteManagementView(viewName) {
+      const targetView = document.getElementById(`${viewName}View`);
+      if (!targetView) return;
+
+      document.querySelectorAll(".submenu-item[data-view]").forEach(menu => {
+        menu.classList.toggle("selected", menu.dataset.view === viewName);
+      });
+      document.querySelectorAll(".view").forEach(view => view.classList.remove("active"));
+      targetView.classList.add("active");
+
+      const fullWidthMode = viewName === "history" || viewName === "groupQuote" || viewName === "formulaAdjust";
+      const workspace = document.querySelector(".workspace");
+      workspace?.classList.toggle("history-mode", fullWidthMode);
+      workspace?.classList.toggle("batch-workspace", viewName === "groupQuote");
+      document.querySelector(".main-panel")?.classList.toggle("batch-mode", viewName === "groupQuote");
+
+      if (viewName === "groupQuote" && batchSyncReady) {
+        hydrateBatchQuoteData();
+        renderGroups();
+        renderGroupCustomers();
+        renderResults();
+      }
+      if (viewName === "formulaAdjust") resetQuickBatchFormulaView();
+      if (viewName === "history") {
+        if (document.querySelector(".history-tab[data-history-tab='customer']")?.classList.contains("active")) renderCustomerHistoryTable();
+        else renderPlatformBenchmarkHistory();
+      }
+    }
+
+    window.switchQuoteManagementView = switchQuoteManagementView;
+
     document.querySelectorAll(".submenu-item[data-view]").forEach(item => {
-      item.addEventListener("click", () => {
-        document.querySelectorAll(".submenu-item[data-view]").forEach(menu => menu.classList.remove("selected"));
-        item.classList.add("selected");
-        document.querySelectorAll(".view").forEach(view => view.classList.remove("active"));
-        const target = `${item.dataset.view}View`;
-        const targetView = document.getElementById(target);
-        if (targetView) targetView.classList.add("active");
-        const fullWidthMode = item.dataset.view === "history" || item.dataset.view === "groupQuote" || item.dataset.view === "formulaAdjust";
-        const workspace = document.querySelector(".workspace");
-        workspace.classList.toggle("history-mode", fullWidthMode);
-        workspace.classList.toggle("batch-workspace", item.dataset.view === "groupQuote");
-        document.querySelector(".main-panel")?.classList.toggle("batch-mode", item.dataset.view === "groupQuote");
-        if (item.dataset.view === "groupQuote" && batchSyncReady) {
-          hydrateBatchQuoteData();
-          renderGroups();
-          renderGroupCustomers();
-          renderResults();
-        }
-        if (item.dataset.view === "formulaAdjust") resetQuickBatchFormulaView();
-        if (item.dataset.view === "history") {
-          if (document.querySelector(".history-tab[data-history-tab='customer']")?.classList.contains("active")) renderCustomerHistoryTable();
-          else renderPlatformBenchmarkHistory();
-        }
+      item.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        switchQuoteManagementView(item.dataset.view);
       });
     });
 
@@ -6570,6 +6864,9 @@ HKD-TT/CNH-TT： 2.654661329</div>
     let editingGroupId = null;
     let deletingGroupId = null;
     let pendingFormulaAdjustItems = [];
+    let batchQuoteCustomerFilter = "";
+    let batchQuoteTypeFilter = "";
+    const batchQuoteDeselectedKeys = new Set();
 
     // 辅助工具函数
 
@@ -6629,9 +6926,139 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return groupedQuoteText(ensureBatchQuotes(customer), quote => batchQuoteValue(customer, quote));
     }
 
+    function batchQuoteTextFromQuotes(customer, quotes) {
+      return groupedQuoteText(quotes, quote => batchQuoteValue(customer, quote));
+    }
+
     function batchQuoteValue(customer, quote) {
       if (quote.result !== undefined && quote.result !== null) return quote.result;
       return customer[quote.rateField] || "--";
+    }
+
+    function batchQuoteKey(customer, quote, quoteIndex) {
+      const customerKey = String(customer.tag || customer.name || "").replace("#", "");
+      const quoteKey = quote.key || quote.rateField || quote.tradeType || quote.prefix || `quote_${quoteIndex}`;
+      return `${customerKey}::${quoteKey}::${quoteIndex}`;
+    }
+
+    function batchCustomerMatchesFilter(customer) {
+      const keyword = batchQuoteCustomerFilter.trim().toLowerCase();
+      if (!keyword) return true;
+      const code = String(customer.tag || "").replace("#", "");
+      return [customer.name, customer.tag, code]
+        .some(value => String(value || "").toLowerCase().includes(keyword));
+    }
+
+    function batchQuoteMatchesType(quote) {
+      if (!batchQuoteTypeFilter) return true;
+      return String(quote.tradeType || quote.prefix || "未分類") === batchQuoteTypeFilter;
+    }
+
+    function activeBatchVisibleEntries(group) {
+      if (!group) return [];
+      return group.customers
+        .map((customer, customerIndex) => {
+          const quotes = ensureBatchQuotes(customer)
+            .map((quote, quoteIndex) => ({
+              quote,
+              quoteIndex,
+              key: batchQuoteKey(customer, quote, quoteIndex)
+            }));
+          return { customer, customerIndex, quotes };
+        })
+        .filter(entry => entry.quotes.length > 0);
+    }
+
+    function batchVisibleTypes(group) {
+      const types = new Set();
+      (group?.customers || []).forEach(customer => {
+        ensureBatchQuotes(customer).forEach(quote => {
+          types.add(String(quote.tradeType || quote.prefix || "未分類"));
+        });
+      });
+      return Array.from(types);
+    }
+
+    function isBatchQuoteSelected(key) {
+      return !batchQuoteDeselectedKeys.has(key);
+    }
+
+    function batchSelectedVisibleCount(group) {
+      let quoteCount = 0;
+      let customerCount = 0;
+      activeBatchVisibleEntries(group).forEach(entry => {
+        const selected = entry.quotes.filter(item => isBatchQuoteSelected(item.key)).length;
+        quoteCount += selected;
+        if (selected) customerCount += 1;
+      });
+      return { quoteCount, customerCount };
+    }
+
+    function setBatchQuoteCustomerFilter(value) {
+      batchQuoteCustomerFilter = value || "";
+      renderResults();
+    }
+
+    function setBatchQuoteTypeFilter(value) {
+      batchQuoteTypeFilter = value || "";
+      renderResults();
+    }
+
+    function toggleBatchQuoteRow(customerIndex, quoteIndex, checked) {
+      const group = groupData.find(g => g.id === currentGroupId);
+      const customer = group?.customers?.[customerIndex];
+      if (!customer) return;
+      const quote = ensureBatchQuotes(customer)[quoteIndex];
+      if (!quote) return;
+      const key = batchQuoteKey(customer, quote, quoteIndex);
+      if (checked) batchQuoteDeselectedKeys.delete(key);
+      else batchQuoteDeselectedKeys.add(key);
+      renderResults();
+    }
+
+    function toggleBatchCustomerQuotes(customerIndex, checked) {
+      const group = groupData.find(g => g.id === currentGroupId);
+      const customer = group?.customers?.[customerIndex];
+      if (!customer) return;
+      ensureBatchQuotes(customer).forEach((quote, quoteIndex) => {
+        const key = batchQuoteKey(customer, quote, quoteIndex);
+        if (checked) batchQuoteDeselectedKeys.delete(key);
+        else batchQuoteDeselectedKeys.add(key);
+      });
+      renderResults();
+    }
+
+    function selectVisibleBatchQuotes(checked) {
+      const group = groupData.find(g => g.id === currentGroupId);
+      activeBatchVisibleEntries(group).forEach(entry => {
+        entry.quotes.forEach(item => {
+          if (checked) batchQuoteDeselectedKeys.delete(item.key);
+          else batchQuoteDeselectedKeys.add(item.key);
+        });
+      });
+      renderResults();
+    }
+
+    function copySelectedBatchQuotes() {
+      const group = groupData.find(g => g.id === currentGroupId);
+      if (!group) return;
+      const blocks = [];
+      let quoteCount = 0;
+      activeBatchVisibleEntries(group).forEach(entry => {
+        const selectedQuotes = entry.quotes
+          .filter(item => isBatchQuoteSelected(item.key))
+          .map(item => item.quote);
+        if (!selectedQuotes.length) return;
+        quoteCount += selectedQuotes.length;
+        blocks.push(`${customerQuoteTitle(entry.customer.name, entry.customer.tag)}：\n${batchQuoteTextFromQuotes(entry.customer, selectedQuotes)}`);
+      });
+      const textValue = blocks.join("\n\n");
+      if (!textValue) {
+        showToast("請先勾選需要複製的報價");
+        return;
+      }
+      navigator.clipboard?.writeText(textValue);
+      showToast(`已複製 ${blocks.length} 位客戶 / ${quoteCount} 項報價`);
     }
 
     function quoteTimeRank(value) {
@@ -6786,30 +7213,75 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
       group.customers.forEach(ensureBatchCustomerQuotes);
 
-      container.innerHTML = group.customers.map((c, idx) => {
-        const quotes = ensureBatchQuotes(c);
-        const latestUpdatedAt = latestBatchQuoteTime(quotes);
+      const visibleEntries = activeBatchVisibleEntries(group);
+      const selectedStats = batchSelectedVisibleCount(group);
+
+      const toolbarHtml = `
+        <div class="batch-copy-toolbar batch-copy-toolbar-compact">
+          <div class="batch-copy-toolbar-actions">
+            <button type="button" class="btn subtle small-btn" onclick="selectVisibleBatchQuotes(true)">全選</button>
+            <button type="button" class="btn subtle small-btn" onclick="selectVisibleBatchQuotes(false)">清空</button>
+            <span class="batch-copy-count-text">已選 ${selectedStats.quoteCount} 項</span>
+            <button type="button" class="btn primary small-btn" onclick="copySelectedBatchQuotes()">${iconSvg("copy", "small")}複製已選報價</button>
+          </div>
+        </div>
+      `;
+
+      if (!visibleEntries.length) {
+        container.innerHTML = toolbarHtml + `
+          <div class="batch-empty-state">
+            沒有符合目前篩選條件的報價
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = toolbarHtml + visibleEntries.map((entry) => {
+        const c = entry.customer;
+        const idx = entry.customerIndex;
+        const allQuotes = ensureBatchQuotes(c);
+        const quotes = entry.quotes;
+        const latestUpdatedAt = latestBatchQuoteTime(allQuotes);
+        const selectedCount = quotes.filter(item => isBatchQuoteSelected(item.key)).length;
+        const cardChecked = quotes.length > 0 && selectedCount === quotes.length;
+        const cardPartial = selectedCount > 0 && selectedCount < quotes.length;
         return `
-          <div class="result-card" id="card-${idx}">
+          <div class="result-card batch-selectable-result-card" id="card-${idx}">
             <div class="card-head">
               <div class="card-title-group">
+                <label class="batch-card-check-wrap" title="勾選該客戶目前可見的全部報價">
+                  <input type="checkbox" data-batch-card-check data-partial="${cardPartial ? 'true' : 'false'}" ${cardChecked ? 'checked' : ''} onchange="toggleBatchCustomerQuotes(${idx}, this.checked)">
+                </label>
                 <span class="card-cust-name">${escapeHtml(c.name)}</span>
                 <span class="card-tag">${escapeHtml(c.tag)}</span>
                 <span class="card-updated-at">最后更新于：${escapeHtml(latestUpdatedAt)}</span>
               </div>
-              <button class="btn primary batch-copy-btn" onclick="copySingleQuote(${idx})">複製報價</button>
+              <div class="batch-card-actions">
+                <button type="button" class="batch-card-action batch-card-recalc" data-batch-recalc-index="${idx}" onclick="recalculateBatchCustomerAtIndex(${idx})">${iconSvg("refresh", "small")}重新計算</button>
+                <button type="button" class="batch-card-action batch-card-copy batch-copy-btn" title="複製該客戶全部報價" onclick="copySingleQuote(${idx})">${iconSvg("copy", "small")}</button>
+              </div>
             </div>
-            ${quotes.map((quote, quoteIndex) => `
-              <div class="quote-row">
+            ${quotes.map((item) => {
+              const quote = item.quote;
+              return `
+              <div class="quote-row batch-quote-selectable-row">
+                <label class="batch-row-check-wrap" title="勾選後加入合併複製">
+                  <input type="checkbox" ${isBatchQuoteSelected(item.key) ? 'checked' : ''} onchange="toggleBatchQuoteRow(${idx}, ${item.quoteIndex}, this.checked)">
+                </label>
                 <span class="quote-type">${escapeHtml(quote.tradeType || quote.prefix || '未分類')}</span>
                 <span class="quote-label">${escapeHtml(quote.prefix || '未命名')}</span>
                 <span class="quote-formula">${escapeHtml(quote.formula || '-')}</span>
                 <span class="quote-val">${escapeHtml(batchQuoteValue(c, quote))}<span class="quote-suffix">${escapeHtml(quote.suffix || '')}</span></span>
               </div>
-            `).join('')}
+            `}).join('')}
           </div>
         `;
       }).join('');
+
+      requestAnimationFrame(() => {
+        container.querySelectorAll('[data-batch-card-check][data-partial="true"]').forEach(input => {
+          input.indeterminate = true;
+        });
+      });
     }
 
     // 交互事件处理
@@ -7788,5 +8260,1468 @@ HKD-TT/CNH-TT： 2.654661329</div>
     }
   })();
 </script>
+<script>
+  (function initBatchQuoteSelectiveCopy() {
+    return;
+    const state = {
+      keyword: '',
+      type: '',
+      selectedRows: new Set(),
+      initialized: false
+    };
+
+    function normalize(text) {
+      return String(text || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function isVisible(el) {
+      return !!(el && el.offsetParent !== null);
+    }
+
+    function toast(message) {
+      const existing = document.querySelector('.batch-copy-toast');
+      if (existing) existing.remove();
+      const node = document.createElement('div');
+      node.className = 'batch-copy-toast';
+      node.textContent = message;
+      Object.assign(node.style, {
+        position: 'fixed',
+        right: '28px',
+        bottom: '28px',
+        padding: '10px 14px',
+        borderRadius: '10px',
+        background: '#0f172a',
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: '13px',
+        zIndex: 9999,
+        boxShadow: '0 12px 28px rgba(15,23,42,.22)'
+      });
+      document.body.appendChild(node);
+      setTimeout(() => node.remove(), 1800);
+    }
+
+    function getBatchRoot() {
+      const headings = Array.from(document.querySelectorAll('h1,h2,h3,h4,div,span'))
+        .filter((el) => isVisible(el) && /^报价结果\s*-/.test(normalize(el.textContent)));
+      const heading = headings[0];
+      if (!heading) return null;
+      let node = heading.parentElement;
+      let best = node;
+      while (node && node !== document.body) {
+        const text = normalize(node.textContent);
+        if (text.includes('报价结果 -') && (text.includes('一键复制全组') || text.includes('复制报价'))) best = node;
+        node = node.parentElement;
+      }
+      return best;
+    }
+
+    function findCustomerCards(root) {
+      if (!root) return [];
+      const copyButtons = Array.from(root.querySelectorAll('button'))
+        .filter((btn) => normalize(btn.textContent).includes('复制报价'));
+      const cards = [];
+      copyButtons.forEach((btn) => {
+        let node = btn.parentElement;
+        let card = null;
+        while (node && node !== root && node !== document.body) {
+          const text = normalize(node.textContent);
+          if (/#\d{5}/.test(text) && text.includes('复制报价')) card = node;
+          node = node.parentElement;
+        }
+        if (card && !cards.includes(card)) cards.push(card);
+      });
+      return cards;
+    }
+
+    function getCardName(card) {
+      const text = normalize(card.textContent);
+      const id = text.match(/#\d{5}/)?.[0] || '';
+      const name = text.split(id)[0].replace(/报价结果\s*-.*/, '').replace(/最后更新于.*/, '').trim();
+      return { name: name || '客户', id };
+    }
+
+    function parseQuoteRows(card, cardIndex) {
+      const text = normalize(card.textContent)
+        .replace(/复制报价/g, '')
+        .replace(/重新计算/g, '')
+        .replace(/最后更新于\s*[:：]\s*\d{4}\/\d{2}\/\d{2}\s+\d{2}:\d{2}:\d{2}/g, '');
+      const tokens = text.split(/\s+/).filter(Boolean);
+      const rows = [];
+      const typeWords = ['美元', '港币', '欧-美', '欧元', '人民币', 'HKD-TT', 'USDT', '美元换U', '港币换美元'];
+      for (let i = 0; i < tokens.length; i += 1) {
+        if (!typeWords.some((word) => tokens[i].includes(word))) continue;
+        const type = tokens[i];
+        const prefix = tokens[i + 1] || '';
+        const formulaParts = [];
+        let j = i + 2;
+        while (j < tokens.length && !/^-?\d+(\.\d+)?$/.test(tokens[j])) {
+          if (!typeWords.some((word) => tokens[j].includes(word)) || formulaParts.length) {
+            formulaParts.push(tokens[j]);
+          }
+          j += 1;
+        }
+        const value = tokens[j] || '';
+        if (!prefix || !value || rows.some((row) => row.type === type && row.prefix === prefix && row.value === value)) continue;
+        const key = `${cardIndex}-${type}-${prefix}-${rows.length}`;
+        rows.push({ key, type, prefix, formula: formulaParts.join(' '), value });
+        i = j;
+      }
+      return rows;
+    }
+
+    function ensureControl(root) {
+      let control = root.querySelector('.batch-copy-control');
+      if (control) return control;
+      const heading = Array.from(root.querySelectorAll('h1,h2,h3,h4,div,span'))
+        .find((el) => /^报价结果\s*-/.test(normalize(el.textContent)));
+      control = document.createElement('div');
+      control.className = 'batch-copy-control';
+      control.innerHTML = `
+        <input id="batchCopyKeyword" type="text" placeholder="筛选客户名称或编号">
+        <select id="batchCopyType"><option value="">全部交易类型</option></select>
+        <button type="button" class="batch-copy-ghost" id="batchCopySelectAll">全选</button>
+        <button type="button" class="batch-copy-ghost" id="batchCopyClear">清空</button>
+        <span class="batch-copy-count" id="batchCopyCount">已选 0 条</span>
+        <button type="button" class="batch-copy-btn" id="batchCopySelected">复制已选报价</button>
+      `;
+      const anchor = heading && heading.parentElement ? heading.parentElement : root.firstElementChild;
+      anchor.insertAdjacentElement('afterend', control);
+      control.querySelector('#batchCopyKeyword').addEventListener('input', (event) => {
+        state.keyword = event.target.value.trim();
+        refresh();
+      });
+      control.querySelector('#batchCopyType').addEventListener('change', (event) => {
+        state.type = event.target.value;
+        refresh();
+      });
+      control.querySelector('#batchCopySelectAll').addEventListener('click', () => {
+        root.querySelectorAll('.batch-quote-row-select').forEach((input) => {
+          if (!input.closest('.batch-quote-row-hidden') && !input.closest('.batch-customer-card-hidden')) {
+            input.checked = true;
+            state.selectedRows.add(input.dataset.rowKey);
+          }
+        });
+        updateCount(root);
+      });
+      control.querySelector('#batchCopyClear').addEventListener('click', () => {
+        root.querySelectorAll('.batch-quote-row-select').forEach((input) => {
+          input.checked = false;
+          state.selectedRows.delete(input.dataset.rowKey);
+        });
+        updateCount(root);
+      });
+      control.querySelector('#batchCopySelected').addEventListener('click', () => copySelected(root));
+      return control;
+    }
+
+    function enhanceCard(card, cardIndex, typeSet) {
+      const info = getCardName(card);
+      if (!card.querySelector('.batch-card-select')) {
+        const title = Array.from(card.querySelectorAll('h1,h2,h3,h4,strong,b,div,span'))
+          .find((el) => /#\d{5}/.test(normalize(el.textContent))) || card.firstElementChild;
+        if (title) {
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = true;
+          checkbox.className = 'batch-card-select';
+          checkbox.title = '勾选/取消该客户全部报价';
+          checkbox.addEventListener('change', () => {
+            card.querySelectorAll('.batch-quote-row-select').forEach((rowCheck) => {
+              rowCheck.checked = checkbox.checked;
+              if (checkbox.checked) state.selectedRows.add(rowCheck.dataset.rowKey);
+              else state.selectedRows.delete(rowCheck.dataset.rowKey);
+            });
+            updateCount(getBatchRoot());
+          });
+          title.prepend(checkbox);
+        }
+      }
+
+      const rows = parseQuoteRows(card, cardIndex);
+      const rowsSignature = JSON.stringify(rows);
+      card.dataset.batchCustomerName = `${info.name} ${info.id}`.toLowerCase();
+      card.dataset.batchTypes = rows.map((row) => row.type).join(',');
+      rows.forEach((row) => {
+        typeSet.add(row.type);
+        if (!state.selectedRows.size) state.selectedRows.add(row.key);
+      });
+
+      const existingPanel = card.querySelector('.batch-row-check-panel');
+      if (existingPanel && card.dataset.batchRows === rowsSignature) return;
+      if (existingPanel) existingPanel.remove();
+      const panel = document.createElement('div');
+      panel.className = 'batch-row-check-panel';
+      panel.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px;';
+      rows.forEach((row) => {
+        const label = document.createElement('label');
+        label.className = 'quote-output-check-item';
+        label.dataset.rowType = row.type;
+        label.innerHTML = `<input class="batch-quote-row-select" type="checkbox" data-row-key="${row.key}" checked><span>${row.type} / ${row.prefix}</span>`;
+        label.querySelector('input').addEventListener('change', (event) => {
+          if (event.target.checked) state.selectedRows.add(row.key);
+          else state.selectedRows.delete(row.key);
+          const cardSelect = card.querySelector('.batch-card-select');
+          if (cardSelect) {
+            const rowChecks = Array.from(card.querySelectorAll('.batch-quote-row-select'));
+            cardSelect.checked = rowChecks.every((input) => input.checked);
+          }
+          updateCount(getBatchRoot());
+        });
+        panel.appendChild(label);
+      });
+      const firstDivider = Array.from(card.children).find((el) => normalize(el.textContent).includes(info.id));
+      (firstDivider || card.firstElementChild || card).insertAdjacentElement('afterend', panel);
+      card.dataset.batchRows = rowsSignature;
+    }
+
+    function updateTypeOptions(root, typeSet) {
+      const select = root.querySelector('#batchCopyType');
+      if (!select) return;
+      const current = select.value;
+      select.innerHTML = '<option value="">全部交易类型</option>';
+      Array.from(typeSet).sort().forEach((type) => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = type;
+        select.appendChild(option);
+      });
+      select.value = Array.from(typeSet).includes(current) ? current : '';
+      state.type = select.value;
+    }
+
+    function applyFilters(root) {
+      const keyword = state.keyword.toLowerCase();
+      const type = state.type;
+      findCustomerCards(root).forEach((card) => {
+        const customerHit = !keyword || (card.dataset.batchCustomerName || '').includes(keyword);
+        let anyRowVisible = false;
+        card.querySelectorAll('.quote-output-check-item[data-row-type]').forEach((row) => {
+          const rowHit = !type || row.dataset.rowType === type;
+          row.classList.toggle('batch-quote-row-hidden', !rowHit);
+          if (rowHit) anyRowVisible = true;
+        });
+        card.classList.toggle('batch-customer-card-hidden', !(customerHit && anyRowVisible));
+      });
+      updateCount(root);
+    }
+
+    function updateCount(root) {
+      if (!root) return;
+      let count = 0;
+      root.querySelectorAll('.batch-quote-row-select').forEach((input) => {
+        if (input.checked && !input.closest('.batch-quote-row-hidden') && !input.closest('.batch-customer-card-hidden')) count += 1;
+      });
+      const countNode = root.querySelector('#batchCopyCount');
+      if (countNode) countNode.textContent = `已选 ${count} 条`;
+    }
+
+    function copySelected(root) {
+      const blocks = [];
+      findCustomerCards(root).forEach((card) => {
+        if (card.classList.contains('batch-customer-card-hidden')) return;
+        const info = getCardName(card);
+        const rows = JSON.parse(card.dataset.batchRows || '[]');
+        const selected = rows.filter((row) => {
+          const input = card.querySelector(`.batch-quote-row-select[data-row-key="${CSS.escape(row.key)}"]`);
+          return input && input.checked && (!state.type || row.type === state.type);
+        });
+        if (!selected.length) return;
+        const grouped = new Map();
+        selected.forEach((row) => {
+          if (!grouped.has(row.type)) grouped.set(row.type, []);
+          grouped.get(row.type).push(row);
+        });
+        const lines = [`${info.name}${info.id ? `(${info.id.replace('#', '')})` : ''}:`];
+        grouped.forEach((groupRows, type) => {
+          lines.push(`${type}--`);
+          groupRows.forEach((row) => lines.push(`${row.prefix}: ${row.value}`));
+        });
+        blocks.push(lines.join('\n'));
+      });
+      const text = blocks.join('\n\n');
+      if (!text) {
+        toast('请先勾选需要复制的报价');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => toast(`已复制 ${blocks.length} 位客户的报价`)).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      textarea.remove();
+      toast('已复制已选报价');
+    }
+
+    function refresh() {
+      const root = getBatchRoot();
+      if (!root) return;
+      ensureControl(root);
+      const typeSet = new Set();
+      findCustomerCards(root).forEach((card, index) => enhanceCard(card, index, typeSet));
+      updateTypeOptions(root, typeSet);
+      applyFilters(root);
+    }
+
+    const observer = new MutationObserver(() => {
+      clearTimeout(observer._timer);
+      observer._timer = setTimeout(refresh, 120);
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        refresh();
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    } else {
+      refresh();
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  })();
+</script>
+<script>
+  (function forceBatchSelectableCopy() {
+    return;
+    const selected = new Set();
+    let lastSignature = '';
+
+    function text(el) {
+      return String(el && el.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function visible(el) {
+      return !!(el && el.getClientRects && el.getClientRects().length);
+    }
+
+    function findBatchPanel() {
+      const candidates = Array.from(document.querySelectorAll('section,main,article,div'))
+        .filter((el) => visible(el) && text(el).includes('报价结果 -') && text(el).includes('重新计算全组报价'));
+      return candidates.sort((a, b) => a.getBoundingClientRect().width * a.getBoundingClientRect().height - b.getBoundingClientRect().width * b.getBoundingClientRect().height)[0] || null;
+    }
+
+    function findCardFromButton(btn, panel) {
+      let node = btn.parentElement;
+      let best = null;
+      while (node && node !== panel && node !== document.body) {
+        const content = text(node);
+        const ids = content.match(/#\d{5}/g) || [];
+        if (ids.length === 1 && content.includes('重新计算')) best = node;
+        node = node.parentElement;
+      }
+      return best || btn.closest('div');
+    }
+
+    function findCards(panel) {
+      const buttons = Array.from(panel.querySelectorAll('button'))
+        .filter((btn) => visible(btn) && text(btn).includes('重新计算') && !text(btn).includes('全组'));
+      return Array.from(new Set(buttons.map((btn) => findCardFromButton(btn, panel)).filter(Boolean)));
+    }
+
+    function parseCard(card, cardIndex) {
+      const raw = text(card)
+        .replace(/重新计算/g, '')
+        .replace(/复制报价/g, '')
+        .replace(/最后更新于\s*[:：]\s*\d{4}\/\d{2}\/\d{2}\s+\d{2}:\d{2}:\d{2}/g, '');
+      const id = raw.match(/#\d{5}/)?.[0] || '';
+      const name = raw.split(id)[0].trim() || '客户';
+      const rows = [];
+      const lineEls = Array.from(card.querySelectorAll('div,li,tr'))
+        .filter((el) => visible(el) && !el.querySelector('button') && /美元|港币|人民币|USDT|HKD|欧/.test(text(el)) && /-?\d+(\.\d+)?/.test(text(el)));
+      lineEls.forEach((lineEl) => {
+        const content = text(lineEl);
+        if (content.includes(name) || content.includes('最后更新于')) return;
+        const type = content.match(/美元|港币|人民币|USDT|HKD-TT|欧-美|欧元/)?.[0];
+        const value = content.match(/-?\d+(?:\.\d+)?(?:\s*[（(][^()（）]*[）)])?$/)?.[0];
+        if (!type || !value) return;
+        const withoutValue = content.replace(value, '').trim();
+        const prefix = withoutValue.replace(type, '').trim().split(/\s+/)[0] || '-';
+        const formula = withoutValue.replace(type, '').replace(prefix, '').trim();
+        const key = `${cardIndex}-${rows.length}-${type}-${prefix}`;
+        if (!rows.some((row) => row.type === type && row.prefix === prefix && row.value === value)) {
+          rows.push({ key, type, prefix, formula, value, lineEl });
+        }
+      });
+      return { id, name, rows };
+    }
+
+    function ensurePanelControls(panel) {
+      let control = panel.querySelector('.batch-select-copy-bar');
+      if (control) return control;
+      control = document.createElement('div');
+      control.className = 'batch-select-copy-bar batch-copy-control';
+      control.innerHTML = `
+        <input type="text" class="batch-select-keyword" placeholder="筛选客户名称或编号">
+        <select class="batch-select-type"><option value="">全部交易类型</option></select>
+        <button type="button" class="batch-copy-ghost batch-visible-all">全选可见</button>
+        <button type="button" class="batch-copy-ghost batch-visible-clear">清空</button>
+        <span class="batch-copy-count">已选 0 条</span>
+        <button type="button" class="batch-copy-btn batch-copy-picked">复制已选报价</button>
+      `;
+      const title = Array.from(panel.querySelectorAll('h1,h2,h3,h4,div,span')).find((el) => /^报价结果\s*-/.test(text(el)));
+      (title && title.parentElement ? title.parentElement : panel.firstElementChild || panel).insertAdjacentElement('afterend', control);
+      control.querySelector('.batch-select-keyword').addEventListener('input', applyFilters);
+      control.querySelector('.batch-select-type').addEventListener('change', applyFilters);
+      control.querySelector('.batch-visible-all').addEventListener('click', () => {
+        panel.querySelectorAll('.batch-row-pick').forEach((input) => {
+          if (!input.closest('.batch-row-filtered') && !input.closest('.batch-card-filtered')) {
+            input.checked = true;
+            selected.add(input.dataset.key);
+          }
+        });
+        updateCount();
+      });
+      control.querySelector('.batch-visible-clear').addEventListener('click', () => {
+        panel.querySelectorAll('.batch-row-pick').forEach((input) => {
+          input.checked = false;
+          selected.delete(input.dataset.key);
+        });
+        updateCount();
+      });
+      control.querySelector('.batch-copy-picked').addEventListener('click', copyPicked);
+      return control;
+    }
+
+    function injectSelectors() {
+      const panel = findBatchPanel();
+      if (!panel) return;
+      const cards = findCards(panel);
+      const parsed = cards.map(parseCard);
+      const signature = parsed.map((card) => `${card.id}:${card.rows.map((row) => row.type + row.prefix + row.value).join('|')}`).join('||');
+      ensurePanelControls(panel);
+      if (signature === lastSignature && panel.querySelector('.batch-row-pick')) {
+        applyFilters();
+        return;
+      }
+      lastSignature = signature;
+
+      const types = new Set();
+      parsed.forEach((card) => {
+        const cardEl = cards[parsed.indexOf(card)];
+        cardEl.classList.add('batch-selectable-card');
+        cardEl.dataset.customerSearch = `${card.name} ${card.id}`.toLowerCase();
+        cardEl.dataset.copyName = card.name;
+        cardEl.dataset.copyId = card.id;
+        if (!cardEl.querySelector('.batch-card-pick')) {
+          const header = Array.from(cardEl.querySelectorAll('div,span,strong,b,h1,h2,h3,h4')).find((el) => text(el).includes(card.id)) || cardEl.firstElementChild;
+          const input = document.createElement('input');
+          input.type = 'checkbox';
+          input.checked = true;
+          input.className = 'batch-card-pick batch-card-select';
+          input.title = '选择该客户全部报价';
+          input.addEventListener('change', () => {
+            cardEl.querySelectorAll('.batch-row-pick').forEach((rowInput) => {
+              rowInput.checked = input.checked;
+              if (input.checked) selected.add(rowInput.dataset.key);
+              else selected.delete(rowInput.dataset.key);
+            });
+            updateCount();
+          });
+          header && header.prepend(input);
+        }
+        card.rows.forEach((row) => {
+          types.add(row.type);
+          selected.add(row.key);
+          row.lineEl.classList.add('batch-selectable-row');
+          row.lineEl.dataset.rowType = row.type;
+          row.lineEl.dataset.rowPrefix = row.prefix;
+          row.lineEl.dataset.rowValue = row.value;
+          row.lineEl.dataset.rowKey = row.key;
+          if (!row.lineEl.querySelector('.batch-row-pick')) {
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.checked = true;
+            input.className = 'batch-row-pick batch-quote-row-select';
+            input.dataset.key = row.key;
+            input.title = '选择该条报价';
+            input.addEventListener('change', () => {
+              if (input.checked) selected.add(row.key);
+              else selected.delete(row.key);
+              const cardInput = cardEl.querySelector('.batch-card-pick');
+              if (cardInput) {
+                const inputs = Array.from(cardEl.querySelectorAll('.batch-row-pick'));
+                cardInput.checked = inputs.every((item) => item.checked);
+              }
+              updateCount();
+            });
+            row.lineEl.prepend(input);
+          }
+        });
+      });
+
+      const typeSelect = panel.querySelector('.batch-select-type');
+      if (typeSelect) {
+        const current = typeSelect.value;
+        typeSelect.innerHTML = '<option value="">全部交易类型</option>';
+        Array.from(types).sort().forEach((type) => {
+          const option = document.createElement('option');
+          option.value = type;
+          option.textContent = type;
+          typeSelect.appendChild(option);
+        });
+        typeSelect.value = Array.from(types).includes(current) ? current : '';
+      }
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const panel = findBatchPanel();
+      if (!panel) return;
+      const keyword = (panel.querySelector('.batch-select-keyword')?.value || '').trim().toLowerCase();
+      const type = panel.querySelector('.batch-select-type')?.value || '';
+      panel.querySelectorAll('.batch-selectable-card').forEach((card) => {
+        const customerHit = !keyword || (card.dataset.customerSearch || '').includes(keyword);
+        let rowHitCount = 0;
+        card.querySelectorAll('.batch-selectable-row').forEach((row) => {
+          const rowHit = !type || row.dataset.rowType === type;
+          row.classList.toggle('batch-row-filtered', !rowHit);
+          if (rowHit) rowHitCount += 1;
+        });
+        card.classList.toggle('batch-card-filtered', !(customerHit && rowHitCount));
+      });
+      updateCount();
+    }
+
+    function updateCount() {
+      const panel = findBatchPanel();
+      if (!panel) return;
+      let count = 0;
+      panel.querySelectorAll('.batch-row-pick').forEach((input) => {
+        if (input.checked && !input.closest('.batch-row-filtered') && !input.closest('.batch-card-filtered')) count += 1;
+      });
+      const countNode = panel.querySelector('.batch-copy-count');
+      if (countNode) countNode.textContent = `已选 ${count} 条`;
+    }
+
+    function copyPicked() {
+      const panel = findBatchPanel();
+      if (!panel) return;
+      const blocks = [];
+      panel.querySelectorAll('.batch-selectable-card').forEach((card) => {
+        if (card.classList.contains('batch-card-filtered')) return;
+        const rows = [];
+        card.querySelectorAll('.batch-selectable-row').forEach((row) => {
+          const input = row.querySelector('.batch-row-pick');
+          if (!input || !input.checked || row.classList.contains('batch-row-filtered')) return;
+          rows.push({
+            type: row.dataset.rowType,
+            prefix: row.dataset.rowPrefix,
+            value: row.dataset.rowValue
+          });
+        });
+        if (!rows.length) return;
+        const grouped = new Map();
+        rows.forEach((row) => {
+          if (!grouped.has(row.type)) grouped.set(row.type, []);
+          grouped.get(row.type).push(row);
+        });
+        const title = `${card.dataset.copyName || '客户'}${card.dataset.copyId ? `(${card.dataset.copyId.replace('#', '')})` : ''}:`;
+        const lines = [title];
+        grouped.forEach((groupRows, type) => {
+          lines.push(`${type}--`);
+          groupRows.forEach((row) => lines.push(`${row.prefix}: ${row.value}`));
+        });
+        blocks.push(lines.join('\n'));
+      });
+      const value = blocks.join('\n\n');
+      if (!value) return;
+      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(value);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .batch-row-filtered,.batch-card-filtered{display:none!important;}
+      .batch-select-copy-bar{position:sticky;top:0;z-index:5;margin:10px 0 14px;}
+      .batch-selectable-row .batch-row-pick{display:inline-block!important;}
+      .batch-selectable-card .batch-card-pick{display:inline-block!important;}
+    `;
+    document.head.appendChild(style);
+
+    setInterval(injectSelectors, 800);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectSelectors);
+    else injectSelectors();
+  })();
+</script>
 </body>
-</html>
+<script>
+  (function reliableBatchQuotePicker() {
+    return;
+    const PICKER_ID = 'reliableBatchQuotePickerBar';
+
+    function cleanText(node) {
+      return String(node && node.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function visible(node) {
+      return !!(node && node.getClientRects && node.getClientRects().length);
+    }
+
+    function getBatchTitle() {
+      return Array.from(document.querySelectorAll('h1,h2,h3,h4,div,span'))
+        .filter((node) => visible(node) && /^报价结果\s*-/.test(cleanText(node)))
+        .sort((a, b) => cleanText(a).length - cleanText(b).length)[0] || null;
+    }
+
+    function getBatchContainer() {
+      const title = getBatchTitle();
+      if (!title) return null;
+      let node = title.parentElement;
+      let best = title.parentElement;
+      while (node && node !== document.body) {
+        const content = cleanText(node);
+        if (content.includes('报价结果 -') && content.includes('重新计算')) best = node;
+        node = node.parentElement;
+      }
+      return best;
+    }
+
+    function getCustomerCards(container) {
+      if (!container) return [];
+      const recalcButtons = Array.from(container.querySelectorAll('button'))
+        .filter((button) => visible(button) && cleanText(button).includes('重新计算') && !cleanText(button).includes('全组'));
+      const cards = [];
+      recalcButtons.forEach((button) => {
+        let node = button.parentElement;
+        let candidate = null;
+        while (node && node !== container && node !== document.body) {
+          const content = cleanText(node);
+          if (/#\d{5}/.test(content) && /美元|港币|人民币|USDT|HKD/.test(content)) candidate = node;
+          node = node.parentElement;
+        }
+        if (candidate && !cards.includes(candidate)) cards.push(candidate);
+      });
+      return cards;
+    }
+
+    function getRows(card) {
+      const rows = Array.from(card.querySelectorAll('div,li,tr'))
+        .filter((node) => {
+          const content = cleanText(node);
+          return visible(node)
+            && !node.querySelector('button')
+            && !node.classList.contains('batch-pick-row')
+            && /美元|港币|人民币|USDT|HKD|欧/.test(content)
+            && /-?\d+(?:\.\d+)?/.test(content)
+            && content.length < 180;
+        });
+      const picked = [];
+      rows.forEach((row) => {
+        const content = cleanText(row);
+        const type = content.match(/美元|港币|人民币|USDT|HKD-TT|欧-美|欧元/)?.[0];
+        const value = content.match(/-?\d+(?:\.\d+)?(?:\s*[（(][^()（）]*[）)])?$/)?.[0];
+        if (!type || !value) return;
+        if (picked.some((item) => item.type === type && item.value === value)) return;
+        picked.push({ node: row, type, value });
+      });
+      return picked;
+    }
+
+    function injectBar(container) {
+      let bar = document.getElementById(PICKER_ID);
+      if (bar) return bar;
+      const title = getBatchTitle();
+      if (!title) return null;
+      bar = document.createElement('div');
+      bar.id = PICKER_ID;
+      bar.className = 'batch-copy-control';
+      bar.innerHTML = `
+        <input type="text" data-role="keyword" placeholder="筛选客户名称或编号">
+        <select data-role="type"><option value="">全部交易类型</option></select>
+        <button type="button" class="batch-copy-ghost" data-role="select-visible">全选可见</button>
+        <button type="button" class="batch-copy-ghost" data-role="clear">清空</button>
+        <span class="batch-copy-count" data-role="count">已选 0 条</span>
+        <button type="button" class="batch-copy-btn" data-role="copy">复制已选报价</button>
+      `;
+      title.parentElement.insertAdjacentElement('afterend', bar);
+      bar.addEventListener('input', refreshBatchPicker);
+      bar.addEventListener('change', refreshBatchPicker);
+      bar.addEventListener('click', (event) => {
+        const role = event.target && event.target.dataset && event.target.dataset.role;
+        if (role === 'select-visible') {
+          document.querySelectorAll('.batch-pick-row input').forEach((input) => {
+            if (!input.closest('.batch-picker-hidden')) input.checked = true;
+          });
+          refreshBatchPicker();
+        }
+        if (role === 'clear') {
+          document.querySelectorAll('.batch-pick-row input').forEach((input) => input.checked = false);
+          refreshBatchPicker();
+        }
+        if (role === 'copy') copyPickedBatchQuotes();
+      });
+      return bar;
+    }
+
+    function parseCustomer(card) {
+      const content = cleanText(card);
+      const id = content.match(/#\d{5}/)?.[0] || '';
+      const name = (id ? content.split(id)[0] : content.split('最后更新于')[0]).trim() || '客户';
+      return { name, id };
+    }
+
+    function enhanceCards(container) {
+      const typeSet = new Set();
+      getCustomerCards(container).forEach((card, cardIndex) => {
+        card.classList.add('batch-picker-card');
+        const customer = parseCustomer(card);
+        card.dataset.batchPickerCustomer = `${customer.name} ${customer.id}`.toLowerCase();
+        card.dataset.batchPickerName = customer.name;
+        card.dataset.batchPickerId = customer.id;
+
+        if (!card.querySelector(':scope > .batch-picker-card-check')) {
+          const header = Array.from(card.querySelectorAll('div,span,strong,b,h1,h2,h3,h4'))
+            .find((node) => cleanText(node).includes(customer.id)) || card.firstElementChild;
+          const cardCheck = document.createElement('input');
+          cardCheck.type = 'checkbox';
+          cardCheck.checked = true;
+          cardCheck.className = 'batch-picker-card-check batch-card-select';
+          cardCheck.title = '选择该客户全部报价';
+          cardCheck.addEventListener('change', () => {
+            card.querySelectorAll('.batch-pick-row input').forEach((input) => input.checked = cardCheck.checked);
+            refreshBatchPicker();
+          });
+          header && header.prepend(cardCheck);
+        }
+
+        getRows(card).forEach((row, rowIndex) => {
+          typeSet.add(row.type);
+          if (row.node.querySelector(':scope > .batch-pick-row')) return;
+          row.node.classList.add('batch-picker-quote-row');
+          row.node.dataset.batchPickerType = row.type;
+          row.node.dataset.batchPickerValue = row.value;
+          const pick = document.createElement('label');
+          pick.className = 'batch-pick-row';
+          pick.style.cssText = 'display:inline-flex;align-items:center;margin-right:8px;vertical-align:middle;';
+          pick.innerHTML = `<input type="checkbox" checked title="选择该条报价" style="width:14px;height:14px;accent-color:#2563eb;">`;
+          row.node.prepend(pick);
+        });
+      });
+      return typeSet;
+    }
+
+    function updateTypeOptions(bar, typeSet) {
+      const select = bar && bar.querySelector('[data-role="type"]');
+      if (!select) return;
+      const oldValue = select.value;
+      select.innerHTML = '<option value="">全部交易类型</option>';
+      Array.from(typeSet).sort().forEach((type) => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = type;
+        select.appendChild(option);
+      });
+      select.value = Array.from(typeSet).includes(oldValue) ? oldValue : '';
+    }
+
+    function refreshBatchPicker() {
+      const container = getBatchContainer();
+      if (!container) return;
+      const bar = injectBar(container);
+      if (!bar) return;
+      const typeSet = enhanceCards(container);
+      updateTypeOptions(bar, typeSet);
+      const keyword = (bar.querySelector('[data-role="keyword"]')?.value || '').trim().toLowerCase();
+      const type = bar.querySelector('[data-role="type"]')?.value || '';
+      let selectedCount = 0;
+      container.querySelectorAll('.batch-picker-card').forEach((card) => {
+        const customerHit = !keyword || (card.dataset.batchPickerCustomer || '').includes(keyword);
+        let visibleRows = 0;
+        card.querySelectorAll('.batch-picker-quote-row').forEach((row) => {
+          const rowHit = !type || row.dataset.batchPickerType === type;
+          row.classList.toggle('batch-picker-hidden', !rowHit);
+          if (rowHit) visibleRows += 1;
+          const input = row.querySelector('.batch-pick-row input');
+          if (customerHit && rowHit && input && input.checked) selectedCount += 1;
+        });
+        card.classList.toggle('batch-picker-hidden', !(customerHit && visibleRows));
+      });
+      const count = bar.querySelector('[data-role="count"]');
+      if (count) count.textContent = `已选 ${selectedCount} 条`;
+    }
+
+    function copyPickedBatchQuotes() {
+      const container = getBatchContainer();
+      if (!container) return;
+      const blocks = [];
+      container.querySelectorAll('.batch-picker-card:not(.batch-picker-hidden)').forEach((card) => {
+        const rows = [];
+        card.querySelectorAll('.batch-picker-quote-row:not(.batch-picker-hidden)').forEach((row) => {
+          const input = row.querySelector('.batch-pick-row input');
+          if (!input || !input.checked) return;
+          const type = row.dataset.batchPickerType || '';
+          const value = row.dataset.batchPickerValue || '';
+          const content = cleanText(row).replace(value, '').replace(type, '').trim();
+          const prefix = content.split(/\s+/).filter(Boolean)[0] || '-';
+          rows.push({ type, prefix, value });
+        });
+        if (!rows.length) return;
+        const lines = [`${card.dataset.batchPickerName || '客户'}${card.dataset.batchPickerId ? `(${card.dataset.batchPickerId.replace('#', '')})` : ''}:`];
+        const grouped = new Map();
+        rows.forEach((row) => {
+          if (!grouped.has(row.type)) grouped.set(row.type, []);
+          grouped.get(row.type).push(row);
+        });
+        grouped.forEach((groupRows, type) => {
+          lines.push(`${type}--`);
+          groupRows.forEach((row) => lines.push(`${row.prefix}: ${row.value}`));
+        });
+        blocks.push(lines.join('\n'));
+      });
+      const textValue = blocks.join('\n\n');
+      if (!textValue) return;
+      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(textValue);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .batch-picker-hidden{display:none!important;}
+      .batch-picker-card-check{display:inline-block!important;margin-right:8px;}
+      .batch-pick-row input{display:inline-block!important;}
+      #${PICKER_ID}{margin:12px 0 16px;}
+    `;
+    document.head.appendChild(style);
+
+    setInterval(refreshBatchPicker, 500);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', refreshBatchPicker);
+    else refreshBatchPicker();
+  })();
+</script>
+<script>
+  (function batchQuoteSelectionFallback() {
+    return;
+    const BAR_ID = 'batchQuoteSelectionFallbackBar';
+    const STYLE_ID = 'batchQuoteSelectionFallbackStyle';
+
+    function isVisible(el) {
+      if (!el || !(el instanceof Element)) return false;
+      const rect = el.getBoundingClientRect();
+      const style = window.getComputedStyle(el);
+      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+    }
+
+    function text(el) {
+      return (el && el.innerText ? el.innerText : '').replace(/\s+/g, ' ').trim();
+    }
+
+    function isBatchQuotePage() {
+      const bodyText = document.body ? document.body.innerText : '';
+      return bodyText.includes('报价结果 -') && bodyText.includes('一键复制全组') && bodyText.includes('报价组');
+    }
+
+    function findBatchRoot() {
+      const candidates = Array.from(document.querySelectorAll('main, section, article, .card, .panel, div'))
+        .filter(isVisible)
+        .filter((el) => {
+          const t = text(el);
+          return t.includes('报价结果 -') && t.includes('一键复制全组') && t.includes('重新计算');
+        })
+        .sort((a, b) => text(a).length - text(b).length);
+      return candidates[0] || null;
+    }
+
+    function findHeading(root) {
+      return Array.from(root.querySelectorAll('h1,h2,h3,h4,strong,span,div'))
+        .filter(isVisible)
+        .filter((el) => /^报价结果\s*-/.test(text(el)))
+        .sort((a, b) => text(a).length - text(b).length)[0] || null;
+    }
+
+    function findCustomerCards(root) {
+      const buttons = Array.from(root.querySelectorAll('button'))
+        .filter(isVisible)
+        .filter((btn) => text(btn).includes('重新计算') && !text(btn).includes('全组'));
+      const cards = [];
+      buttons.forEach((btn) => {
+        let node = btn.parentElement;
+        while (node && node !== root && node.parentElement !== root) {
+          const t = text(node);
+          if (/#\d{5}/.test(t) && /(美元|港币|HKD|USD|sino|sgb)/.test(t) && /\d+\.\d+/.test(t)) {
+            break;
+          }
+          node = node.parentElement;
+        }
+        if (node && node !== root && !cards.includes(node)) cards.push(node);
+      });
+      return cards;
+    }
+
+    function directCustomerLabel(card) {
+      const raw = text(card).match(/([A-Za-z0-9&\u4e00-\u9fa5]+)\s*#(\d{5})/);
+      if (!raw) return { name: '客户', code: '' };
+      return { name: raw[1], code: raw[2] };
+    }
+
+    function findQuoteRows(card) {
+      return Array.from(card.querySelectorAll('div,li,tr'))
+        .filter(isVisible)
+        .filter((row) => !row.closest(`#${BAR_ID}`))
+        .filter((row) => {
+          const t = text(row);
+          if (!/(美元|港币|HKD|USD)/.test(t)) return false;
+          if (!/(sino|sgb|同名|第三方|每日价格|报价)/i.test(t)) return false;
+          if (!/\d+(\.\d+)?/.test(t)) return false;
+          if (t.includes('重新计算') || t.includes('复制报价')) return false;
+          return t.length < 220;
+        })
+        .filter((row, idx, arr) => !arr.some((other, otherIdx) => otherIdx !== idx && other.contains(row)));
+    }
+
+    function ensureStyles() {
+      if (document.getElementById(STYLE_ID)) return;
+      const style = document.createElement('style');
+      style.id = STYLE_ID;
+      style.textContent = `
+        #${BAR_ID} {
+          display: flex !important;
+          align-items: center;
+          gap: 10px;
+          margin: 12px 0 14px;
+          padding: 10px 12px;
+          border: 1px solid #dbe5f2;
+          border-radius: 10px;
+          background: #f8fbff;
+          color: #1f2d3d;
+          font-size: 14px;
+        }
+        #${BAR_ID} input,
+        #${BAR_ID} select {
+          height: 34px;
+          border: 1px solid #cbd8e8;
+          border-radius: 8px;
+          background: #fff;
+          padding: 0 10px;
+          font-size: 14px;
+        }
+        #${BAR_ID} .batch-pick-count {
+          margin-left: auto;
+          color: #64748b;
+          white-space: nowrap;
+        }
+        #${BAR_ID} button {
+          height: 34px;
+          border: 1px solid #cbd8e8;
+          border-radius: 8px;
+          background: #fff;
+          color: #2563eb;
+          padding: 0 12px;
+          cursor: pointer;
+          font-weight: 600;
+        }
+        #${BAR_ID} button.primary {
+          background: #2563eb;
+          border-color: #2563eb;
+          color: #fff;
+        }
+        .batch-fallback-customer-check {
+          display: inline-flex !important;
+          align-items: center;
+          margin-right: 8px;
+          vertical-align: middle;
+        }
+        .batch-fallback-row-check {
+          display: inline-flex !important;
+          align-items: center;
+          justify-content: center;
+          margin-right: 8px;
+          vertical-align: middle;
+        }
+        .batch-fallback-customer-check input,
+        .batch-fallback-row-check input {
+          width: 16px;
+          height: 16px;
+          accent-color: #2563eb;
+          cursor: pointer;
+        }
+        .batch-fallback-hidden {
+          display: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    function ensureBar(root) {
+      let bar = document.getElementById(BAR_ID);
+      if (bar) return bar;
+      bar = document.createElement('div');
+      bar.id = BAR_ID;
+      bar.innerHTML = `
+        <strong>合并复制范围</strong>
+        <input class="batch-filter-input" placeholder="筛选客户名称/编号" />
+        <select class="batch-type-select"><option value="">全部交易类型</option></select>
+        <button type="button" class="batch-select-visible">全选可见</button>
+        <button type="button" class="batch-clear-visible">清空</button>
+        <span class="batch-pick-count">已选 0 项</span>
+        <button type="button" class="primary batch-copy-picked">复制已选报价</button>
+      `;
+      const heading = findHeading(root);
+      let anchor = heading ? heading.parentElement : root.firstElementChild;
+      while (anchor && anchor.parentElement && anchor.parentElement !== root && !text(anchor).includes('一键复制全组')) {
+        anchor = anchor.parentElement;
+      }
+      (anchor || root).insertAdjacentElement('afterend', bar);
+      return bar;
+    }
+
+    function enhance(root) {
+      const bar = ensureBar(root);
+      const keyword = bar.querySelector('.batch-filter-input').value.trim().toLowerCase();
+      const typeValue = bar.querySelector('.batch-type-select').value;
+      const typeSet = new Set();
+      const cards = findCustomerCards(root);
+
+      cards.forEach((card, cardIndex) => {
+        card.dataset.batchFallbackCard = '1';
+        const customer = directCustomerLabel(card);
+        if (!card.querySelector(':scope > .batch-fallback-customer-check')) {
+          const input = document.createElement('label');
+          input.className = 'batch-fallback-customer-check';
+          input.title = '勾选该客户的全部报价';
+          input.innerHTML = '<input type="checkbox" checked />';
+          card.insertBefore(input, card.firstChild);
+        }
+        const customerChecked = card.querySelector(':scope > .batch-fallback-customer-check input');
+        const customerMatch = !keyword || customer.name.toLowerCase().includes(keyword) || customer.code.includes(keyword);
+        card.classList.toggle('batch-fallback-hidden', !customerMatch);
+
+        findQuoteRows(card).forEach((row, rowIndex) => {
+          const rowText = text(row);
+          const typeMatch = rowText.match(/(美元|港币|HKD|USD|欧元|人民币)/);
+          const type = typeMatch ? typeMatch[1] : '其他';
+          typeSet.add(type);
+          row.dataset.batchFallbackRow = '1';
+          row.dataset.batchFallbackType = type;
+          row.dataset.batchFallbackCustomer = `${customer.name}(${customer.code})`;
+          if (!row.querySelector(':scope > .batch-fallback-row-check')) {
+            const pick = document.createElement('label');
+            pick.className = 'batch-fallback-row-check';
+            pick.title = '勾选该条报价';
+            pick.innerHTML = '<input type="checkbox" checked />';
+            row.insertBefore(pick, row.firstChild);
+          }
+          const rowPick = row.querySelector(':scope > .batch-fallback-row-check input');
+          if (!rowPick.dataset.bound) {
+            rowPick.dataset.bound = '1';
+            rowPick.addEventListener('change', syncCount);
+          }
+          if (!customerChecked.dataset.bound) {
+            customerChecked.dataset.bound = '1';
+            customerChecked.addEventListener('change', () => {
+              findQuoteRows(card).forEach((r) => {
+                const input = r.querySelector(':scope > .batch-fallback-row-check input');
+                if (input) input.checked = customerChecked.checked;
+              });
+              syncCount();
+            });
+          }
+          row.classList.toggle('batch-fallback-hidden', Boolean(typeValue && type !== typeValue));
+        });
+      });
+
+      const select = bar.querySelector('.batch-type-select');
+      const current = select.value;
+      const options = ['<option value="">全部交易类型</option>']
+        .concat(Array.from(typeSet).sort().map((type) => `<option value="${type}">${type}</option>`));
+      const nextHtml = options.join('');
+      if (select.innerHTML !== nextHtml) {
+        select.innerHTML = nextHtml;
+        select.value = current;
+      }
+      syncCount();
+    }
+
+    function syncCount() {
+      const bar = document.getElementById(BAR_ID);
+      if (!bar) return;
+      const count = Array.from(document.querySelectorAll('[data-batch-fallback-row="1"]'))
+        .filter((row) => !row.classList.contains('batch-fallback-hidden'))
+        .filter((row) => {
+          const card = row.closest('[data-batch-fallback-card="1"]');
+          return card && !card.classList.contains('batch-fallback-hidden');
+        })
+        .filter((row) => {
+          const input = row.querySelector(':scope > .batch-fallback-row-check input');
+          return input && input.checked;
+        }).length;
+      const label = bar.querySelector('.batch-pick-count');
+      if (label) label.textContent = `已选 ${count} 项`;
+    }
+
+    function bindBar(bar) {
+      if (bar.dataset.bound) return;
+      bar.dataset.bound = '1';
+      bar.querySelector('.batch-filter-input').addEventListener('input', schedule);
+      bar.querySelector('.batch-type-select').addEventListener('change', schedule);
+      bar.querySelector('.batch-select-visible').addEventListener('click', () => {
+        document.querySelectorAll('[data-batch-fallback-row="1"]').forEach((row) => {
+          if (!row.classList.contains('batch-fallback-hidden')) {
+            const card = row.closest('[data-batch-fallback-card="1"]');
+            const input = row.querySelector(':scope > .batch-fallback-row-check input');
+            if (card && !card.classList.contains('batch-fallback-hidden') && input) input.checked = true;
+          }
+        });
+        syncCount();
+      });
+      bar.querySelector('.batch-clear-visible').addEventListener('click', () => {
+        document.querySelectorAll('[data-batch-fallback-row="1"] input[type="checkbox"]').forEach((input) => input.checked = false);
+        syncCount();
+      });
+      bar.querySelector('.batch-copy-picked').addEventListener('click', async () => {
+        const lines = Array.from(document.querySelectorAll('[data-batch-fallback-row="1"]'))
+          .filter((row) => {
+            const card = row.closest('[data-batch-fallback-card="1"]');
+            const input = row.querySelector(':scope > .batch-fallback-row-check input');
+            return card && !card.classList.contains('batch-fallback-hidden') && !row.classList.contains('batch-fallback-hidden') && input && input.checked;
+          })
+          .map((row) => `${row.dataset.batchFallbackCustomer || ''} ${text(row).replace(/^✓?\s*/, '')}`)
+          .join('\n');
+        if (lines && navigator.clipboard) {
+          await navigator.clipboard.writeText(lines);
+        }
+        const label = bar.querySelector('.batch-pick-count');
+        if (label) label.textContent = lines ? '已复制已选报价' : '未选择报价';
+        setTimeout(syncCount, 1200);
+      });
+    }
+
+    let ticking = false;
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        run();
+      });
+    }
+
+    function run() {
+      if (!isBatchQuotePage()) return;
+      const root = findBatchRoot();
+      if (!root) return;
+      ensureStyles();
+      const bar = ensureBar(root);
+      bindBar(bar);
+      enhance(root);
+    }
+
+    document.addEventListener('DOMContentLoaded', run);
+    document.addEventListener('click', () => setTimeout(run, 80), true);
+    setInterval(run, 800);
+  })();
+</script>
+<script>
+  (function forceVisibleBatchSelectionControls() {
+    return;
+    const ID = 'forceVisibleBatchSelectionControls';
+    const CSS_ID = 'forceVisibleBatchSelectionControlsStyle';
+
+    function getText(el) {
+      return (el && (el.innerText || el.textContent) || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function isShown(el) {
+      if (!el || !(el instanceof Element)) return false;
+      const rect = el.getBoundingClientRect();
+      const style = window.getComputedStyle(el);
+      return rect.width > 1 && rect.height > 1 && style.display !== 'none' && style.visibility !== 'hidden';
+    }
+
+    function onBatchPage() {
+      const t = document.body ? document.body.innerText : '';
+      return t.includes('批量报价') && t.includes('报价结果 -') && t.includes('一键复制全组');
+    }
+
+    function addCss() {
+      if (document.getElementById(CSS_ID)) return;
+      const style = document.createElement('style');
+      style.id = CSS_ID;
+      style.textContent = `
+        #${ID} {
+          display: flex !important;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          margin: 12px 0 14px;
+          padding: 10px 12px;
+          border: 1px solid #dbe6f3;
+          border-radius: 10px;
+          background: #f8fbff;
+          box-sizing: border-box;
+          position: relative;
+          z-index: 20;
+        }
+        #${ID} strong {
+          font-size: 14px;
+          color: #172033;
+          white-space: nowrap;
+        }
+        #${ID} input,
+        #${ID} select {
+          height: 32px;
+          min-width: 150px;
+          border: 1px solid #cbd8e8;
+          border-radius: 8px;
+          padding: 0 10px;
+          background: #fff;
+          color: #172033;
+          font-size: 13px;
+          box-sizing: border-box;
+        }
+        #${ID} .force-batch-count {
+          margin-left: auto;
+          color: #7b8aa3;
+          font-size: 13px;
+          white-space: nowrap;
+        }
+        #${ID} button {
+          height: 32px;
+          border: 1px solid #cbd8e8;
+          border-radius: 8px;
+          padding: 0 12px;
+          background: #fff;
+          color: #2563eb;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        #${ID} .force-batch-primary {
+          background: #2563eb;
+          border-color: #2563eb;
+          color: #fff;
+        }
+        .force-batch-card-pick,
+        .force-batch-row-pick {
+          display: inline-flex !important;
+          align-items: center;
+          justify-content: center;
+          margin-right: 8px;
+          vertical-align: middle;
+        }
+        .force-batch-card-pick input,
+        .force-batch-row-pick input {
+          display: inline-block !important;
+          width: 16px !important;
+          height: 16px !important;
+          min-width: 16px !important;
+          accent-color: #2563eb;
+          cursor: pointer;
+        }
+        .force-batch-hide {
+          display: none !important;
+        }
+      `;
+      (document.head || document.documentElement).appendChild(style);
+    }
+
+    function findTitleElement() {
+      const all = Array.from(document.querySelectorAll('h1,h2,h3,h4,strong,b,span,div')).filter(isShown);
+      return all
+        .filter((el) => /^报价结果\s*-/.test(getText(el)))
+        .sort((a, b) => getText(a).length - getText(b).length)[0] || null;
+    }
+
+    function findResultPanel() {
+      const title = findTitleElement();
+      if (!title) return null;
+      let node = title;
+      for (let i = 0; i < 8 && node; i += 1) {
+        const t = getText(node);
+        if (t.includes('一键复制全组') && t.includes('重新计算')) return node;
+        node = node.parentElement;
+      }
+      return title.parentElement || null;
+    }
+
+    function insertBar(panel) {
+      let bar = document.getElementById(ID);
+      if (bar) return bar;
+      bar = document.createElement('div');
+      bar.id = ID;
+      bar.innerHTML = `
+        <strong>合并复制范围</strong>
+        <input class="force-batch-filter" placeholder="筛选客户名称/编号" />
+        <select class="force-batch-type"><option value="">全部交易类型</option></select>
+        <button type="button" class="force-batch-select">全选可见</button>
+        <button type="button" class="force-batch-clear">清空</button>
+        <span class="force-batch-count">已选 0 条</span>
+        <button type="button" class="force-batch-primary force-batch-copy">复制已选报价</button>
+      `;
+
+      const title = findTitleElement();
+      let anchor = title ? title.parentElement : panel.firstElementChild;
+      if (anchor && anchor.parentElement !== panel) {
+        while (anchor.parentElement && anchor.parentElement !== panel) anchor = anchor.parentElement;
+      }
+      if (anchor && anchor.parentElement) anchor.insertAdjacentElement('afterend', bar);
+      else panel.insertBefore(bar, panel.firstChild);
+      bindBar(bar);
+      return bar;
+    }
+
+    function getCards(panel) {
+      const buttons = Array.from(panel.querySelectorAll('button')).filter((btn) => {
+        const t = getText(btn);
+        return isShown(btn) && t.includes('重新计算') && !t.includes('全组');
+      });
+      const cards = [];
+      buttons.forEach((btn) => {
+        let node = btn.parentElement;
+        let picked = null;
+        for (let i = 0; i < 7 && node && node !== panel; i += 1) {
+          const t = getText(node);
+          if (/#\d{5}/.test(t) && /(美元|港币|sino|sgb|HKD|USD)/.test(t)) picked = node;
+          node = node.parentElement;
+        }
+        if (picked && !cards.includes(picked)) cards.push(picked);
+      });
+      return cards;
+    }
+
+    function getCustomer(card) {
+      const m = getText(card).match(/([A-Za-z0-9&\u4e00-\u9fa5]+)\s*#(\d{5})/);
+      return m ? { name: m[1], code: m[2] } : { name: '客户', code: '' };
+    }
+
+    function getQuoteRows(card) {
+      return Array.from(card.querySelectorAll('div,li,tr')).filter((row) => {
+        if (!isShown(row)) return false;
+        if (row.closest(`#${ID}`)) return false;
+        const t = getText(row);
+        if (t.includes('重新计算') || t.includes('最后更新于')) return false;
+        if (!/(美元|港币|HKD|USD)/.test(t)) return false;
+        if (!/(sino|sgb|同名|第三方|每日价格|报价)/i.test(t)) return false;
+        if (!/\d+(\.\d+)?/.test(t)) return false;
+        return t.length <= 180;
+      }).filter((row, index, rows) => !rows.some((other, otherIndex) => otherIndex !== index && other.contains(row)));
+    }
+
+    function typeOf(row) {
+      const t = getText(row);
+      const m = t.match(/(美元|港币|HKD|USD|欧元|人民币)/);
+      return m ? m[1] : '其他';
+    }
+
+    function enhance(panel, bar) {
+      const keyword = (bar.querySelector('.force-batch-filter').value || '').trim().toLowerCase();
+      const selectedType = bar.querySelector('.force-batch-type').value;
+      const typeSet = new Set();
+      getCards(panel).forEach((card) => {
+        card.dataset.forceBatchCard = '1';
+        const customer = getCustomer(card);
+        if (!card.querySelector(':scope > .force-batch-card-pick')) {
+          const label = document.createElement('label');
+          label.className = 'force-batch-card-pick';
+          label.title = '选择该客户全部报价';
+          label.innerHTML = '<input type="checkbox" checked />';
+          card.insertBefore(label, card.firstChild);
+        }
+        const customerPick = card.querySelector(':scope > .force-batch-card-pick input');
+        const matchedCustomer = !keyword || customer.name.toLowerCase().includes(keyword) || customer.code.includes(keyword);
+        card.classList.toggle('force-batch-hide', !matchedCustomer);
+        if (!customerPick.dataset.forceBound) {
+          customerPick.dataset.forceBound = '1';
+          customerPick.addEventListener('change', () => {
+            getQuoteRows(card).forEach((row) => {
+              const rowPick = row.querySelector(':scope > .force-batch-row-pick input');
+              if (rowPick) rowPick.checked = customerPick.checked;
+            });
+            updateCount();
+          });
+        }
+        getQuoteRows(card).forEach((row) => {
+          const t = typeOf(row);
+          typeSet.add(t);
+          row.dataset.forceBatchRow = '1';
+          row.dataset.forceBatchCustomer = `${customer.name}(${customer.code})`;
+          row.dataset.forceBatchType = t;
+          if (!row.querySelector(':scope > .force-batch-row-pick')) {
+            const label = document.createElement('label');
+            label.className = 'force-batch-row-pick';
+            label.title = '选择该条报价';
+            label.innerHTML = '<input type="checkbox" checked />';
+            row.insertBefore(label, row.firstChild);
+          }
+          const rowPick = row.querySelector(':scope > .force-batch-row-pick input');
+          if (!rowPick.dataset.forceBound) {
+            rowPick.dataset.forceBound = '1';
+            rowPick.addEventListener('change', updateCount);
+          }
+          row.classList.toggle('force-batch-hide', Boolean(selectedType && t !== selectedType));
+        });
+      });
+      const select = bar.querySelector('.force-batch-type');
+      const old = select.value;
+      const html = ['<option value="">全部交易类型</option>']
+        .concat(Array.from(typeSet).sort().map((t) => `<option value="${t}">${t}</option>`)).join('');
+      if (select.innerHTML !== html) {
+        select.innerHTML = html;
+        select.value = old;
+      }
+      updateCount();
+    }
+
+    function updateCount() {
+      const bar = document.getElementById(ID);
+      if (!bar) return;
+      const rows = Array.from(document.querySelectorAll('[data-force-batch-row="1"]')).filter((row) => {
+        const card = row.closest('[data-force-batch-card="1"]');
+        const pick = row.querySelector(':scope > .force-batch-row-pick input');
+        return card && !card.classList.contains('force-batch-hide') && !row.classList.contains('force-batch-hide') && pick && pick.checked;
+      });
+      const count = bar.querySelector('.force-batch-count');
+      if (count) count.textContent = `已选 ${rows.length} 条`;
+    }
+
+    function bindBar(bar) {
+      if (bar.dataset.forceBound) return;
+      bar.dataset.forceBound = '1';
+      bar.querySelector('.force-batch-filter').addEventListener('input', run);
+      bar.querySelector('.force-batch-type').addEventListener('change', run);
+      bar.querySelector('.force-batch-select').addEventListener('click', () => {
+        document.querySelectorAll('[data-force-batch-row="1"]').forEach((row) => {
+          const card = row.closest('[data-force-batch-card="1"]');
+          const pick = row.querySelector(':scope > .force-batch-row-pick input');
+          if (card && pick && !card.classList.contains('force-batch-hide') && !row.classList.contains('force-batch-hide')) pick.checked = true;
+        });
+        updateCount();
+      });
+      bar.querySelector('.force-batch-clear').addEventListener('click', () => {
+        document.querySelectorAll('[data-force-batch-row="1"] .force-batch-row-pick input').forEach((input) => input.checked = false);
+        updateCount();
+      });
+      bar.querySelector('.force-batch-copy').addEventListener('click', async () => {
+        const lines = Array.from(document.querySelectorAll('[data-force-batch-row="1"]')).filter((row) => {
+          const card = row.closest('[data-force-batch-card="1"]');
+          const pick = row.querySelector(':scope > .force-batch-row-pick input');
+          return card && pick && pick.checked && !card.classList.contains('force-batch-hide') && !row.classList.contains('force-batch-hide');
+        }).map((row) => `${row.dataset.forceBatchCustomer || ''} ${getText(row).replace(/^✓?\s*/, '')}`);
+        if (lines.length && navigator.clipboard) await navigator.clipboard.writeText(lines.join('\n'));
+        const count = bar.querySelector('.force-batch-count');
+        if (count) count.textContent = lines.length ? `已复制 ${lines.length} 条` : '未选择报价';
+        setTimeout(updateCount, 1200);
+      });
+    }
+
+    function run() {
+      if (!onBatchPage()) return;
+      addCss();
+      const panel = findResultPanel();
+      if (!panel) return;
+      const bar = insertBar(panel);
+      enhance(panel, bar);
+    }
+
+    window.addEventListener('load', run);
+    document.addEventListener('DOMContentLoaded', run);
+    document.addEventListener('click', () => setTimeout(run, 100), true);
+    setInterval(run, 600);
+  })();
+</script>
