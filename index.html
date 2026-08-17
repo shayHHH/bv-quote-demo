@@ -790,6 +790,9 @@
       padding: 0;
       background: #ffffff;
       box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
+      position: relative;
+      overflow: visible;
+      margin-right: 48px;
     }
 
     .formula-card.collapsed .quote-summary {
@@ -823,7 +826,7 @@
 
     .quote-summary {
       display: grid;
-      grid-template-columns: 128px 96px minmax(0, 1fr) 140px 82px;
+      grid-template-columns: 128px 96px minmax(0, 1fr) 140px minmax(72px, auto);
       align-items: center;
       gap: 14px;
       width: 100%;
@@ -855,7 +858,20 @@
       align-items: center;
       justify-content: flex-end;
       min-width: 0;
-      width: 82px;
+      width: auto;
+      gap: 2px;
+    }
+
+    .formula-card.collapsed .formula-order-actions {
+      position: absolute;
+      top: 50%;
+      right: -48px;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .formula-actions {
+      margin-right: 48px;
     }
 
     .quote-summary-metrics {
@@ -958,7 +974,7 @@
     .formula-head-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .formula-remove-btn {
@@ -1052,7 +1068,7 @@
 
     @media (max-width: 1280px) {
       .quote-summary {
-        grid-template-columns: 112px 72px minmax(0, 1fr) 118px 76px;
+        grid-template-columns: 112px 72px minmax(0, 1fr) 118px minmax(72px, auto);
         gap: 10px;
       }
 
@@ -3740,9 +3756,72 @@
     padding: 14px 16px;
   }
 
+  .quote-output-prefix {
+    margin-bottom: 10px;
+  }
+
+  .quote-output-text-input {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid #dbe5f2;
+    border-radius: 10px;
+    background: #fff;
+    color: #1e293b;
+    padding: 10px 12px;
+    font: 600 13px/1.45 var(--font-sans);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .quote-output-text-input:focus {
+    border-color: #9ec5ff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  }
+
   .quote-output-select-panel {
     border-top: 1px solid #e7eef8;
     padding-top: 10px;
+  }
+
+  .quote-output-note {
+    margin-top: 10px;
+    border-top: 1px solid #e7eef8;
+    padding-top: 10px;
+  }
+
+  .quote-output-note-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .quote-output-note-label span:last-child {
+    color: #9aa9bd;
+    font-weight: 600;
+  }
+
+  .quote-output-note-input {
+    width: 100%;
+    min-height: 58px;
+    max-height: 90px;
+    resize: vertical;
+    border: 1px solid #dbe5f2;
+    border-radius: 10px;
+    background: #fff;
+    color: #1e293b;
+    padding: 10px 12px;
+    font: 600 13px/1.45 var(--font-sans);
+    outline: none;
+  }
+
+  .quote-output-note-input:focus {
+    border-color: #9ec5ff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
   }
 
   .quote-output-select-hint {
@@ -3871,7 +3950,62 @@
   .batch-quote-line-enhanced .batch-quote-result-cell {
     justify-self: end;
   }
-</style>
+    .formula-order-actions,
+    .batch-quote-order-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      flex: 0 0 auto;
+    }
+
+    .formula-order-btn,
+    .batch-order-btn {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--gray-500);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all .15s ease;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .formula-order-btn .ui-icon.small,
+    .batch-order-btn .ui-icon.small {
+      width: 13px;
+      height: 13px;
+    }
+
+    .formula-order-btn:hover:not(:disabled),
+    .batch-order-btn:hover:not(:disabled) {
+      color: var(--primary);
+      border-color: #bdd2f6;
+      background: #eff6ff;
+    }
+
+    .formula-order-btn:disabled,
+    .batch-order-btn:disabled {
+      opacity: .32;
+      cursor: not-allowed;
+    }
+
+    .batch-quote-selectable-row:hover .batch-quote-order-actions {
+      opacity: 1;
+    }
+
+    .batch-quote-order-actions {
+      opacity: .68;
+    }
+
+  </style>
 </head>
 <body>
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;">
@@ -4119,7 +4253,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
                 <span class="column-title" style="font-size: 16px;" id="currentGroupTitleDisplay">報價結果</span>
               </div>
               <div style="display: flex; gap: 8px;">
-                <button class="btn primary" id="batchCopyBtn"><svg class="ui-icon small"><use href="#i-zap"></use></svg>一鍵複製全組</button>
+                <button class="btn" id="batchRecalcGroupBtn" onclick="recalculateCurrentBatchGroup()"><svg class="ui-icon small"><use href="#i-refresh"></use></svg>重新计算全组报价</button>
               </div>
             </div>
 
@@ -5205,12 +5339,14 @@ HKD-TT/CNH-TT： 2.654661329</div>
     });
 
     let activeQuoteIndex = null;
+    let activeFormulaIndex = 0;
     let activeVariableTab = "channel";
     let quoteEvaluationStack = new Set();
     let batchSyncReady = false;
     let activeQuickCustomerKey = "10004";
     const formulaCursorRanges = new Map();
     const quickQuoteConfigs = {};
+    const quickQuoteTextConfigs = {};
     let quoteItems = [
       {
         tradeType: "美元",
@@ -5455,13 +5591,31 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return bindQuoteResult(index, computeQuoteItem(index), forceUpdate, forcedTime);
     }
 
+    function captureQuoteEditors() {
+      quoteItems.forEach((item, index) => {
+        const editor = document.getElementById(`formulaEditor-${index}`);
+        if (editor) item.formulaHtml = editor.innerHTML;
+      });
+    }
+
+    function moveQuoteItem(index, direction) {
+      captureQuoteEditors();
+      const nextIndex = index + direction;
+      if (nextIndex < 0 || nextIndex >= quoteItems.length) return;
+      [quoteItems[index], quoteItems[nextIndex]] = [quoteItems[nextIndex], quoteItems[index]];
+      if (activeFormulaIndex === index) activeFormulaIndex = nextIndex;
+      else if (activeFormulaIndex === nextIndex) activeFormulaIndex = index;
+      renderQuoteItems(false);
+      syncQuickQuoteToBatch();
+      syncQuickQuoteToHistory();
+    }
+
+    window.moveQuoteItem = moveQuoteItem;
+
     function renderQuoteItems(captureEditors = true) {
       const container = document.getElementById("quoteItemsContainer");
       if (captureEditors) {
-        quoteItems.forEach((item, index) => {
-          const editor = document.getElementById(`formulaEditor-${index}`);
-          if (editor) item.formulaHtml = editor.innerHTML;
-        });
+        captureQuoteEditors();
       }
       container.innerHTML = "";
       container.innerHTML = quoteItems.map((item, index) => {
@@ -5469,6 +5623,14 @@ HKD-TT/CNH-TT： 2.654661329</div>
         const canRemove = quoteItems.length > 1;
         const summaryTradeType = item.tradeType || item.prefix || `報價項 #${index + 1}`;
         const summaryPrefix = item.prefix || `前綴 #${index + 1}`;
+        const canMoveUp = index > 0;
+        const canMoveDown = index < quoteItems.length - 1;
+        const orderControls = `
+          <span class="formula-order-actions" onclick="event.stopPropagation()">
+            <button type="button" class="formula-order-btn" data-quote-index="${index}" data-quote-direction="-1" onclick="event.preventDefault(); event.stopPropagation(); moveQuoteItem(${index}, -1)" ${canMoveUp ? "" : "disabled"} title="上移" aria-label="上移">↑</button>
+            <button type="button" class="formula-order-btn" data-quote-index="${index}" data-quote-direction="1" onclick="event.preventDefault(); event.stopPropagation(); moveQuoteItem(${index}, 1)" ${canMoveDown ? "" : "disabled"} title="下移" aria-label="下移">↓</button>
+          </span>
+        `;
         if (!item.expanded) {
           return `
             <section class="formula-card collapsed">
@@ -5481,9 +5643,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
                     <div class="quote-summary-result">${status.result}</div>
                     <span class="quote-item-time quote-summary-time" id="quoteTime-${index}">更新于：${escapeHtml(item.lastQuotedAt || "-")}</span>
                   </div>
-                  <div class="quote-summary-actions">
-                    <button class="formula-toggle-btn" onclick="event.stopPropagation(); expandQuoteItem(${index})">展开 ${iconSvg("chevron-down", "small")}</button>
-                  </div>
+              <div class="quote-summary-actions">
+                ${orderControls}
+                <button class="formula-toggle-btn" onclick="event.stopPropagation(); expandQuoteItem(${index})">展开 ${iconSvg("chevron-down", "small")}</button>
+              </div>
                 </div>
               </div>
             </section>
@@ -5496,10 +5659,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
                 <div class="formula-card-title"><span class="formula-dot"></span>報價項 #${index + 1}</div>
                 <span class="quote-item-time" id="quoteTime-${index}">更新于：${escapeHtml(item.lastQuotedAt || "-")}</span>
               </div>
-              <div class="formula-head-actions">
-                ${canRemove ? `<button class="formula-remove-btn" onclick="removeQuoteItem(${index})" title="删除此项" aria-label="删除此项">${iconSvg("trash", "small")}</button>` : ""}
-                <button class="formula-toggle-btn" onclick="toggleQuoteItem(${index})">收起 ${iconSvg("chevron-up", "small")}</button>
-              </div>
+            <div class="formula-head-actions">
+              ${orderControls}
+              ${canRemove ? `<button class="formula-remove-btn" onclick="removeQuoteItem(${index})" title="删除此项" aria-label="删除此项">${iconSvg("trash", "small")}</button>` : ""}
+              <button class="formula-toggle-btn" onclick="toggleQuoteItem(${index})">收起 ${iconSvg("chevron-up", "small")}</button>
+            </div>
             </div>
             <div class="formula-grid">
               <div>
@@ -5559,6 +5723,16 @@ HKD-TT/CNH-TT： 2.654661329</div>
           </section>
         `;
       }).join("");
+      if (!container.dataset.orderControlsBound) {
+        container.addEventListener("click", (event) => {
+          const button = event.target.closest(".formula-order-btn");
+          if (!button || button.disabled) return;
+          event.preventDefault();
+          event.stopPropagation();
+          moveQuoteItem(Number(button.dataset.quoteIndex), Number(button.dataset.quoteDirection));
+        });
+        container.dataset.orderControlsBound = "true";
+      }
       calculate();
     }
 
@@ -5761,6 +5935,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
         if (editor) item.formulaHtml = editor.innerHTML;
       });
       quickQuoteConfigs[activeQuickCustomerKey] = cloneQuoteItems(quoteItems);
+      saveCurrentQuickQuoteTextConfig();
     }
 
     function loadQuickQuoteConfigForCustomer(customer) {
@@ -5768,6 +5943,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
       activeQuickCustomerKey = key;
       quoteItems = mergeMissingDefaultQuoteItems(quickQuoteConfigs[key] || defaultQuoteItemsForCustomer(customer), customer);
       quickQuoteConfigs[key] = cloneQuoteItems(quoteItems);
+      quickQuoteTextConfigs[key] = normalizeQuoteTextConfig(quickQuoteTextConfigs[key], {
+        name: String(customer.info || customer.label || "").split("-")[0].replace(/\s*\(\d+\)\s*$/, "").trim(),
+        code: key
+      });
+      syncQuoteTextConfigInputs();
     }
 
     function currentQuickCustomerIdentity() {
@@ -5784,6 +5964,67 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const cleanName = String(name || "").trim();
       const cleanCode = String(code || "").replace(/^#/, "").trim();
       return cleanCode ? `${cleanName}(${cleanCode})` : cleanName;
+    }
+
+    function defaultQuoteOpeningForIdentity(identity) {
+      const title = customerQuoteTitle(identity?.name, identity?.code);
+      return title ? `${title}：` : "";
+    }
+
+    function defaultQuoteTextConfigForIdentity(identity) {
+      return {
+        opening: defaultQuoteOpeningForIdentity(identity),
+        ending: ""
+      };
+    }
+
+    function normalizeQuoteTextConfig(config, identity) {
+      const defaults = defaultQuoteTextConfigForIdentity(identity);
+      return {
+        opening: config?.opening ?? defaults.opening,
+        ending: config?.ending ?? ""
+      };
+    }
+
+    function currentQuickQuoteTextConfig() {
+      const identity = currentQuickCustomerIdentity();
+      const key = activeQuickCustomerKey || identity.code || identity.name || "default";
+      quickQuoteTextConfigs[key] = normalizeQuoteTextConfig(quickQuoteTextConfigs[key], identity);
+      return quickQuoteTextConfigs[key];
+    }
+
+    function saveCurrentQuickQuoteTextConfig() {
+      const identity = currentQuickCustomerIdentity();
+      const key = activeQuickCustomerKey || identity.code || identity.name || "default";
+      const openingInput = document.getElementById("quoteOpeningText");
+      const endingInput = document.getElementById("quoteGlobalNote");
+      const previous = normalizeQuoteTextConfig(quickQuoteTextConfigs[key], identity);
+      quickQuoteTextConfigs[key] = {
+        opening: openingInput ? openingInput.value : previous.opening,
+        ending: endingInput ? endingInput.value : previous.ending
+      };
+      return quickQuoteTextConfigs[key];
+    }
+
+    function quoteTextConfigForCustomer(customer) {
+      const source = batchCustomerSource(customer);
+      const code = customerCode(source) || customerCode(customer);
+      const name = String(source.name || source.label || customer.name || "")
+        .replace(/\s*\(\d+\)\s*$/, "")
+        .trim();
+      const identity = { name, code };
+      return normalizeQuoteTextConfig(customer.quoteText || quickQuoteTextConfigs[code], identity);
+    }
+
+    function syncQuoteTextConfigInputs() {
+      const config = currentQuickQuoteTextConfig();
+      const openingInput = document.getElementById("quoteOpeningText");
+      const endingInput = document.getElementById("quoteGlobalNote");
+      if (openingInput && openingInput.value !== config.opening) openingInput.value = config.opening;
+      if (endingInput && endingInput.value !== config.ending) endingInput.value = config.ending;
+      if (typeof window.refreshQuickQuotePreviewFormatter === "function") {
+        window.refreshQuickQuotePreviewFormatter({ keepSelection: true });
+      }
     }
 
     function quickQuoteSnapshot() {
@@ -5884,21 +6125,32 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const identity = currentQuickCustomerIdentity();
       if (!identity.name && !identity.code) return;
       const quotes = quickQuoteSnapshot();
+      const quoteText = { ...currentQuickQuoteTextConfig() };
       systemCustomers.forEach(customer => {
         const matchesName = identity.name && customer.name === identity.name;
         const matchesTag = identity.tag && customer.tag === identity.tag;
         const matchesInfo = identity.code && customer.info?.endsWith(identity.code);
-        if (matchesName || matchesTag || matchesInfo) customer.quotes = cloneQuotes(quotes);
+        if (matchesName || matchesTag || matchesInfo) {
+          customer.quotes = cloneQuotes(quotes);
+          customer.quoteText = { ...quoteText };
+        }
       });
       groupData.forEach(group => {
         group.customers.forEach(customer => {
           const matchesName = identity.name && customer.name === identity.name;
           const matchesTag = identity.tag && customer.tag === identity.tag;
-          if (matchesName || matchesTag) customer.quotes = cloneQuotes(quotes);
+          if (matchesName || matchesTag) {
+            customer.quotes = cloneQuotes(quotes);
+            customer.quoteText = { ...quoteText };
+          }
         });
       });
       if (document.getElementById("groupQuoteView")?.classList.contains("active")) renderResults();
     }
+
+    window.currentQuickQuoteTextConfig = currentQuickQuoteTextConfig;
+    window.saveCurrentQuickQuoteTextConfig = saveCurrentQuickQuoteTextConfig;
+    window.syncQuickQuoteToBatch = syncQuickQuoteToBatch;
 
     function roundingLabel(mode) {
       if (mode === "up") return "向上";
@@ -6103,7 +6355,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
           result: status.result
         };
       });
-      output.textContent = `${customerQuoteTitle(identity.name, identity.code)}：\n${groupedQuoteText(quoteRows, quote => quote.result)}`;
+      output.textContent = groupedQuoteText(quoteRows, quote => quote.result);
       saveCurrentQuickQuoteConfig();
       syncQuickQuoteToBatch();
       syncQuickQuoteToHistory();
@@ -6328,6 +6580,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
         tradeType: item.tradeType || item.prefix || `報價項${index + 1}`,
         prefix: item.prefix || `報價項${index + 1}`,
         suffix: item.suffix || "",
+        formulaHtml: item.formulaHtml || "",
         formula: formulaSummary(item.formulaHtml),
         result: previewFormulaResult(item.formulaHtml, item),
         updatedAt: item.lastQuotedAt || "-",
@@ -6652,7 +6905,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
     document.getElementById("saveBtn")?.addEventListener("click", () => showToast("配置已成功保存"));
     document.getElementById("copyBtn").addEventListener("click", () => {
-      navigator.clipboard?.writeText(output.textContent);
+      const text = typeof window.buildCurrentQuickQuoteCopyText === "function"
+        ? window.buildCurrentQuickQuoteCopyText()
+        : output.textContent;
+      navigator.clipboard?.writeText(text);
       showToast("報價文本已成功複製到剪貼簿");
     });
     document.getElementById("quickBatchSearchParam")?.addEventListener("input", runQuickBatchFormulaPreview);
@@ -6930,6 +7186,19 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return groupedQuoteText(quotes, quote => batchQuoteValue(customer, quote));
     }
 
+    function composeQuoteCopyText(opening, body, ending) {
+      return [opening, body, ending]
+        .map(part => String(part || "").trim())
+        .filter(Boolean)
+        .join("\n");
+    }
+
+    function batchQuoteCopyText(customer, quotes = null) {
+      const config = quoteTextConfigForCustomer(customer);
+      const body = quotes ? batchQuoteTextFromQuotes(customer, quotes) : batchQuoteText(customer);
+      return composeQuoteCopyText(config.opening, body, config.ending);
+    }
+
     function batchQuoteValue(customer, quote) {
       if (quote.result !== undefined && quote.result !== null) return quote.result;
       return customer[quote.rateField] || "--";
@@ -6963,10 +7232,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
               quote,
               quoteIndex,
               key: batchQuoteKey(customer, quote, quoteIndex)
-            }));
+            }))
+            .filter(item => batchQuoteMatchesType(item.quote));
           return { customer, customerIndex, quotes };
         })
-        .filter(entry => entry.quotes.length > 0);
+        .filter(entry => batchCustomerMatchesFilter(entry.customer) && entry.quotes.length > 0);
     }
 
     function batchVisibleTypes(group) {
@@ -7021,6 +7291,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const customer = group?.customers?.[customerIndex];
       if (!customer) return;
       ensureBatchQuotes(customer).forEach((quote, quoteIndex) => {
+        if (!batchQuoteMatchesType(quote)) return;
         const key = batchQuoteKey(customer, quote, quoteIndex);
         if (checked) batchQuoteDeselectedKeys.delete(key);
         else batchQuoteDeselectedKeys.add(key);
@@ -7039,6 +7310,80 @@ HKD-TT/CNH-TT： 2.654661329</div>
       renderResults();
     }
 
+    function selectedVisibleBatchQuotesForCustomer(customer) {
+      return ensureBatchQuotes(customer)
+        .map((quote, quoteIndex) => ({
+          quote,
+          quoteIndex,
+          key: batchQuoteKey(customer, quote, quoteIndex)
+        }))
+        .filter(item => batchQuoteMatchesType(item.quote))
+        .filter(item => isBatchQuoteSelected(item.key))
+        .map(item => item.quote);
+    }
+
+    function batchQuoteSnapshotToQuickItem(quote, index) {
+      const formulaHtml = quote.formulaHtml || formulaTextToHtml(quote.formula || "");
+      return {
+        tradeType: quote.tradeType || quote.prefix || `報價項 #${index + 1}`,
+        prefix: quote.prefix || `報價項 #${index + 1}`,
+        suffix: quote.suffix || "",
+        formulaHtml,
+        brokerPoint: quote.brokerPoint ?? 0,
+        bvPoint: quote.bvPoint ?? 0,
+        digits: quote.digits ?? 4,
+        roundMode: quote.roundMode || "45",
+        expanded: false,
+        lastQuotedAt: quote.updatedAt || "-",
+        lastResult: quote.result ?? null
+      };
+    }
+
+    function syncCustomerQuoteSnapshotsToRelatedViews(customer, quotes) {
+      const identity = customerIdentityFromCustomer(customer);
+      const snapshots = cloneQuotes(quotes);
+      systemCustomers.forEach(systemCustomer => {
+        const matchesName = identity.name && systemCustomer.name === identity.name;
+        const matchesTag = identity.tag && systemCustomer.tag === identity.tag;
+        const matchesInfo = identity.code && systemCustomer.info?.endsWith(identity.code);
+        if (matchesName || matchesTag || matchesInfo) systemCustomer.quotes = cloneQuotes(snapshots);
+      });
+      groupData.forEach(group => {
+        group.customers.forEach(groupCustomer => {
+          const groupIdentity = customerIdentityFromCustomer(groupCustomer);
+          const matchesCode = identity.code && groupIdentity.code === identity.code;
+          const matchesName = identity.name && groupCustomer.name === identity.name;
+          const matchesTag = identity.tag && groupCustomer.tag === identity.tag;
+          if (matchesCode || matchesName || matchesTag) groupCustomer.quotes = cloneQuotes(snapshots);
+        });
+      });
+      if (identity.code) {
+        quickQuoteConfigs[identity.code] = snapshots.map(batchQuoteSnapshotToQuickItem);
+        if (activeQuickCustomerKey === identity.code) {
+          quoteItems = snapshots.map(batchQuoteSnapshotToQuickItem);
+        }
+      }
+    }
+
+    function moveBatchQuoteItem(customerIndex, quoteIndex, direction) {
+      const group = groupData.find(g => g.id === currentGroupId);
+      const customer = group?.customers?.[customerIndex];
+      if (!customer) return;
+      const quotes = ensureBatchQuotes(customer);
+      const nextIndex = quoteIndex + direction;
+      if (nextIndex < 0 || nextIndex >= quotes.length) return;
+      [quotes[quoteIndex], quotes[nextIndex]] = [quotes[nextIndex], quotes[quoteIndex]];
+      customer.quotes = quotes;
+      batchQuoteDeselectedKeys.clear();
+      syncCustomerQuoteSnapshotsToRelatedViews(customer, quotes);
+      renderResults();
+      if (activeQuickCustomerKey === customerIdentityFromCustomer(customer).code) {
+        renderQuoteItems(false);
+      }
+    }
+
+    window.moveBatchQuoteItem = moveBatchQuoteItem;
+
     function copySelectedBatchQuotes() {
       const group = groupData.find(g => g.id === currentGroupId);
       if (!group) return;
@@ -7050,7 +7395,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
           .map(item => item.quote);
         if (!selectedQuotes.length) return;
         quoteCount += selectedQuotes.length;
-        blocks.push(`${customerQuoteTitle(entry.customer.name, entry.customer.tag)}：\n${batchQuoteTextFromQuotes(entry.customer, selectedQuotes)}`);
+        blocks.push(batchQuoteCopyText(entry.customer, selectedQuotes));
       });
       const textValue = blocks.join("\n\n");
       if (!textValue) {
@@ -7214,28 +7559,15 @@ HKD-TT/CNH-TT： 2.654661329</div>
       group.customers.forEach(ensureBatchCustomerQuotes);
 
       const visibleEntries = activeBatchVisibleEntries(group);
-      const selectedStats = batchSelectedVisibleCount(group);
-
-      const toolbarHtml = `
-        <div class="batch-copy-toolbar batch-copy-toolbar-compact">
-          <div class="batch-copy-toolbar-actions">
-            <button type="button" class="btn subtle small-btn" onclick="selectVisibleBatchQuotes(true)">全選</button>
-            <button type="button" class="btn subtle small-btn" onclick="selectVisibleBatchQuotes(false)">清空</button>
-            <span class="batch-copy-count-text">已選 ${selectedStats.quoteCount} 項</span>
-            <button type="button" class="btn primary small-btn" onclick="copySelectedBatchQuotes()">${iconSvg("copy", "small")}複製已選報價</button>
-          </div>
-        </div>
-      `;
-
       if (!visibleEntries.length) {
-        container.innerHTML = toolbarHtml + `
+        container.innerHTML = `
           <div class="batch-empty-state">
             沒有符合目前篩選條件的報價
           </div>`;
         return;
       }
 
-      container.innerHTML = toolbarHtml + visibleEntries.map((entry) => {
+      container.innerHTML = visibleEntries.map((entry) => {
         const c = entry.customer;
         const idx = entry.customerIndex;
         const allQuotes = ensureBatchQuotes(c);
@@ -7257,16 +7589,22 @@ HKD-TT/CNH-TT： 2.654661329</div>
               </div>
               <div class="batch-card-actions">
                 <button type="button" class="batch-card-action batch-card-recalc" data-batch-recalc-index="${idx}" onclick="recalculateBatchCustomerAtIndex(${idx})">${iconSvg("refresh", "small")}重新計算</button>
-                <button type="button" class="batch-card-action batch-card-copy batch-copy-btn" title="複製該客戶全部報價" onclick="copySingleQuote(${idx})">${iconSvg("copy", "small")}</button>
+                <button type="button" class="batch-card-action batch-card-copy batch-copy-btn" title="複製該客戶已選報價" onclick="copySingleQuote(${idx})">${iconSvg("copy", "small")}</button>
               </div>
             </div>
             ${quotes.map((item) => {
               const quote = item.quote;
+              const canMoveUp = item.quoteIndex > 0;
+              const canMoveDown = item.quoteIndex < allQuotes.length - 1;
               return `
               <div class="quote-row batch-quote-selectable-row">
                 <label class="batch-row-check-wrap" title="勾選後加入合併複製">
                   <input type="checkbox" ${isBatchQuoteSelected(item.key) ? 'checked' : ''} onchange="toggleBatchQuoteRow(${idx}, ${item.quoteIndex}, this.checked)">
                 </label>
+                <span class="batch-quote-order-actions" title="調整報價順序">
+                  <button type="button" class="batch-order-btn" onclick="event.preventDefault(); event.stopPropagation(); moveBatchQuoteItem(${idx}, ${item.quoteIndex}, -1)" ${canMoveUp ? "" : "disabled"} title="上移" aria-label="上移">↑</button>
+                  <button type="button" class="batch-order-btn" onclick="event.preventDefault(); event.stopPropagation(); moveBatchQuoteItem(${idx}, ${item.quoteIndex}, 1)" ${canMoveDown ? "" : "disabled"} title="下移" aria-label="下移">↓</button>
+                </span>
                 <span class="quote-type">${escapeHtml(quote.tradeType || quote.prefix || '未分類')}</span>
                 <span class="quote-label">${escapeHtml(quote.prefix || '未命名')}</span>
                 <span class="quote-formula">${escapeHtml(quote.formula || '-')}</span>
@@ -7331,9 +7669,14 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const group = groupData.find(g => g.id === currentGroupId);
       const customer = group?.customers[customerIndex];
       if (!customer) return;
-      const text = `${customerQuoteTitle(customer.name, customer.tag)}：\n${batchQuoteText(customer)}`;
+      const selectedQuotes = selectedVisibleBatchQuotesForCustomer(customer);
+      if (!selectedQuotes.length) {
+        showToast("請先勾選需要複製的報價");
+        return;
+      }
+      const text = batchQuoteCopyText(customer, selectedQuotes);
       navigator.clipboard?.writeText(text);
-      showToast(`已複製 ${customer.name} 的報價文本`);
+      showToast(`已複製 ${customer.name} 的 ${selectedQuotes.length} 項報價`);
     }
 
     // 渲染系统客户选择列表弹窗
@@ -7502,18 +7845,6 @@ HKD-TT/CNH-TT： 2.654661329</div>
       if (e.key === 'Escape') {
         closeHistoryQuoteDetail();
       }
-    });
-
-    // 快捷工具按鈕监听
-    document.getElementById('batchCopyBtn').addEventListener('click', () => {
-      const group = groupData.find(g => g.id === currentGroupId);
-      if (!group || !group.customers.length) return;
-      
-      const fullText = group.customers.map(c => {
-        return `${customerQuoteTitle(c.name, c.tag)}：\n${batchQuoteText(c)}`;
-      }).join('\n\n');
-      navigator.clipboard?.writeText(fullText);
-      showToast(`已一鍵複製【${group.name}】全組 ${group.customers.length} 位客戶報價`);
     });
 
     document.getElementById('downloadCsvBtn').addEventListener('click', () => {
@@ -8069,10 +8400,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
 <script>
   (function initQuotePreviewFormatter() {
     const state = {
-      includeHeader: true,
       groupByType: true,
       includeSuffix: true,
-      header: '',
+      opening: '',
+      ending: '',
       items: [],
       selected: new Set(),
       selfUpdating: false
@@ -8081,15 +8412,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
     function parseQuoteText(text) {
       const lines = String(text || '').split('\n');
       const parsed = [];
-      let header = '';
       let currentType = '';
       lines.forEach((raw) => {
         const line = raw.trim();
         if (!line) return;
-        if (!header && /[:：]$/.test(line) && !line.includes('--')) {
-          header = line;
-          return;
-        }
         if (line.endsWith('--')) {
           currentType = line.replace(/--$/, '').trim();
           return;
@@ -8099,11 +8425,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
           const prefix = line.slice(0, colonIndex).trim();
           const value = line.slice(colonIndex + 1).trim();
           const type = currentType || '未分组';
-          const key = `${type}__${prefix}`;
+          const key = `${type}__${prefix}__${parsed.length}`;
           parsed.push({ key, type, prefix, value });
         }
       });
-      return { header, items: parsed };
+      return { items: parsed };
     }
 
     function stripSuffix(value) {
@@ -8112,10 +8438,9 @@ HKD-TT/CNH-TT： 2.654661329</div>
         .trim();
     }
 
-    function formatQuoteText(header, items) {
+    function formatQuoteBody(items) {
       const selectedItems = items.filter((item) => state.selected.has(item.key));
       const output = [];
-      if (state.includeHeader && header) output.push(header);
 
       if (state.groupByType) {
         const groups = [];
@@ -8145,6 +8470,36 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return output.join('\n');
     }
 
+    function refreshTextStateFromInputs() {
+      const config = typeof window.currentQuickQuoteTextConfig === 'function'
+        ? window.currentQuickQuoteTextConfig()
+        : {};
+      const openingInput = document.getElementById('quoteOpeningText');
+      const endingInput = document.getElementById('quoteGlobalNote');
+      state.opening = openingInput ? openingInput.value : config.opening || '';
+      state.ending = endingInput ? endingInput.value : config.ending || '';
+    }
+
+    function buildCopyText() {
+      refreshTextStateFromInputs();
+      return [state.opening, formatQuoteBody(state.items), state.ending]
+        .map((part) => String(part || '').trim())
+        .filter(Boolean)
+        .join('\n');
+    }
+
+    function syncSelectionForItems(items, forceSelectAll = false) {
+      const previousKeys = new Set(state.items.map((item) => item.key));
+      const previousSelected = new Set(state.selected);
+      const nextSelected = new Set();
+      items.forEach((item) => {
+        if (forceSelectAll || !previousKeys.has(item.key) || previousSelected.has(item.key)) {
+          nextSelected.add(item.key);
+        }
+      });
+      state.selected = nextSelected;
+    }
+
     function renderCheckList(list, items) {
       if (!list) return;
       list.innerHTML = '';
@@ -8156,19 +8511,22 @@ HKD-TT/CNH-TT： 2.654661329</div>
       });
     }
 
-    function applyPreview(parsed) {
-      const output = document.getElementById('quoteOutput');
-      const list = document.getElementById('quoteOutputCheckList');
-      if (!output) return;
-      state.header = parsed.header || state.header;
-      state.items = parsed.items;
-      parsed.items.forEach((item) => state.selected.add(item.key));
-      renderCheckList(list, parsed.items);
+    function renderFormattedOutput(output) {
       state.selfUpdating = true;
-      output.textContent = formatQuoteText(state.header, parsed.items);
+      output.textContent = formatQuoteBody(state.items);
       requestAnimationFrame(() => {
         state.selfUpdating = false;
       });
+    }
+
+    function applyPreview(parsed, options = {}) {
+      const output = document.getElementById('quoteOutput');
+      const list = document.getElementById('quoteOutputCheckList');
+      if (!output) return;
+      syncSelectionForItems(parsed.items, !!options.forceSelectAll && !options.keepSelection);
+      state.items = parsed.items;
+      renderCheckList(list, parsed.items);
+      renderFormattedOutput(output);
     }
 
     function enhanceOutputBox() {
@@ -8186,7 +8544,6 @@ HKD-TT/CNH-TT： 2.654661329</div>
           <button type="button" class="quote-format-btn" id="quoteFormatBtn">格式设置⌄</button>
           <div class="quote-format-menu" id="quoteFormatMenu">
             <div class="quote-format-title">导出格式配置</div>
-            <label class="quote-format-option">包含客户抬头 <input type="checkbox" data-format="includeHeader" checked></label>
             <label class="quote-format-option">按交易类型分组 <input type="checkbox" data-format="groupByType" checked></label>
             <label class="quote-format-option">包含后缀 <input type="checkbox" data-format="includeSuffix" checked></label>
           </div>
@@ -8200,13 +8557,41 @@ HKD-TT/CNH-TT： 2.654661329</div>
         box.insertBefore(toolbar, output);
       }
 
+      const textConfig = typeof window.currentQuickQuoteTextConfig === 'function'
+        ? window.currentQuickQuoteTextConfig()
+        : {};
+      state.opening = textConfig.opening || '';
+      state.ending = textConfig.ending || '';
+
+      const openingPanel = document.createElement('div');
+      openingPanel.className = 'quote-output-prefix';
+      openingPanel.innerHTML = `
+        <div class="quote-output-note-label">
+          <span>報價開頭</span>
+          <span>按客戶自動保存，複製時放在報價正文前</span>
+        </div>
+        <input id="quoteOpeningText" class="quote-output-text-input" value="${escapeHtml(state.opening)}" placeholder="可輸入本次報價開頭" />
+      `;
+      output.insertAdjacentElement('beforebegin', openingPanel);
+
       const panel = document.createElement('div');
       panel.className = 'quote-output-select-panel';
       panel.innerHTML = `
         <div class="quote-output-select-hint">勾选后将实时更新上方报价文本，默认全选。</div>
         <div class="quote-output-check-list" id="quoteOutputCheckList"></div>
       `;
-      output.insertAdjacentElement('afterend', panel);
+
+      const notePanel = document.createElement('div');
+      notePanel.className = 'quote-output-note';
+      notePanel.innerHTML = `
+        <div class="quote-output-note-label">
+          <span>報價結尾</span>
+          <span>按客戶自動保存，複製時附加到報價文本末尾</span>
+        </div>
+        <textarea id="quoteGlobalNote" class="quote-output-note-input" placeholder="可輸入本次報價結尾">${escapeHtml(state.ending)}</textarea>
+      `;
+      output.insertAdjacentElement('afterend', notePanel);
+      notePanel.insertAdjacentElement('afterend', panel);
 
       const formatBtn = document.getElementById('quoteFormatBtn');
       const formatMenu = document.getElementById('quoteFormatMenu');
@@ -8226,32 +8611,50 @@ HKD-TT/CNH-TT： 2.654661329</div>
         if (!(target instanceof HTMLInputElement)) return;
         if (target.dataset.format) {
           state[target.dataset.format] = target.checked;
-          applyPreview({ header: state.header, items: state.items });
+          applyPreview({ items: state.items });
           return;
         }
         if (target.dataset.key) {
           if (target.checked) state.selected.add(target.dataset.key);
           else state.selected.delete(target.dataset.key);
-          state.selfUpdating = true;
-          output.textContent = formatQuoteText(state.header, state.items);
-          requestAnimationFrame(() => {
-            state.selfUpdating = false;
-          });
+          renderFormattedOutput(output);
         }
+      });
+
+      const openingInput = document.getElementById('quoteOpeningText');
+      const noteInput = document.getElementById('quoteGlobalNote');
+      [openingInput, noteInput].forEach((input) => {
+        input && input.addEventListener('input', () => {
+          refreshTextStateFromInputs();
+          if (typeof window.saveCurrentQuickQuoteTextConfig === 'function') window.saveCurrentQuickQuoteTextConfig();
+          if (typeof window.syncQuickQuoteToBatch === 'function') window.syncQuickQuoteToBatch();
+        });
       });
 
       const observer = new MutationObserver(() => {
         if (state.selfUpdating) return;
         const parsed = parseQuoteText(output.textContent);
-        state.selected = new Set(parsed.items.map((item) => item.key));
         applyPreview(parsed);
       });
       observer.observe(output, { childList: true, characterData: true, subtree: true });
 
       const initial = parseQuoteText(output.textContent);
-      state.selected = new Set(initial.items.map((item) => item.key));
-      applyPreview(initial);
+      applyPreview(initial, { forceSelectAll: true });
     }
+
+    window.buildCurrentQuickQuoteCopyText = buildCopyText;
+    window.refreshQuickQuotePreviewFormatter = function refreshQuickQuotePreviewFormatter(options = {}) {
+      const output = document.getElementById('quoteOutput');
+      const openingInput = document.getElementById('quoteOpeningText');
+      const endingInput = document.getElementById('quoteGlobalNote');
+      const config = typeof window.currentQuickQuoteTextConfig === 'function'
+        ? window.currentQuickQuoteTextConfig()
+        : {};
+      if (openingInput) openingInput.value = config.opening || '';
+      if (endingInput) endingInput.value = config.ending || '';
+      refreshTextStateFromInputs();
+      if (output) applyPreview(parseQuoteText(output.textContent), options);
+    };
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', enhanceOutputBox);
