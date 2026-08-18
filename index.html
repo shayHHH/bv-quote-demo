@@ -3807,9 +3807,7 @@
 
   .quote-output-note-input {
     width: 100%;
-    min-height: 58px;
-    max-height: 90px;
-    resize: vertical;
+    height: 42px;
     border: 1px solid #dbe5f2;
     border-radius: 10px;
     background: #fff;
@@ -3822,6 +3820,69 @@
   .quote-output-note-input:focus {
     border-color: #9ec5ff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  }
+
+  .quote-common-notes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .quote-common-notes-label {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 2px;
+  }
+
+  .quote-common-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 260px;
+    min-height: 28px;
+    padding: 0 8px 0 10px;
+    border: 1px solid #dbe5f2;
+    border-radius: 999px;
+    background: #f8fbff;
+    color: #475569;
+    font: 600 12px/1.2 var(--font-sans);
+    cursor: pointer;
+  }
+
+  .quote-common-note:hover {
+    border-color: #a9c8f5;
+    background: #eff6ff;
+    color: #2563eb;
+  }
+
+  .quote-common-note-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .quote-common-note-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .quote-common-note-remove:hover {
+    background: #dbeafe;
+    color: #2563eb;
   }
 
   .quote-output-select-hint {
@@ -5304,6 +5365,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
       document.querySelector(".main-panel")?.classList.toggle("batch-mode", viewName === "groupQuote");
 
       if (viewName === "groupQuote" && batchSyncReady) {
+        batchQuoteSelectedKeys.clear();
         hydrateBatchQuoteData();
         renderGroups();
         renderGroupCustomers();
@@ -5347,6 +5409,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
     const formulaCursorRanges = new Map();
     const quickQuoteConfigs = {};
     const quickQuoteTextConfigs = {};
+    const quickQuoteNoteHistory = {};
     let quoteItems = [
       {
         tradeType: "美元",
@@ -5974,7 +6037,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
     function defaultQuoteTextConfigForIdentity(identity) {
       return {
         opening: defaultQuoteOpeningForIdentity(identity),
-        ending: ""
+        ending: "",
+        includeQuoteTime: false
       };
     }
 
@@ -5982,7 +6046,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const defaults = defaultQuoteTextConfigForIdentity(identity);
       return {
         opening: config?.opening ?? defaults.opening,
-        ending: config?.ending ?? ""
+        ending: config?.ending ?? "",
+        includeQuoteTime: config?.includeQuoteTime ?? defaults.includeQuoteTime
       };
     }
 
@@ -5993,15 +6058,56 @@ HKD-TT/CNH-TT： 2.654661329</div>
       return quickQuoteTextConfigs[key];
     }
 
+    function currentQuickQuoteNoteHistory() {
+      const identity = currentQuickCustomerIdentity();
+      const key = activeQuickCustomerKey || identity.code || identity.name || "default";
+      if (!Array.isArray(quickQuoteNoteHistory[key])) quickQuoteNoteHistory[key] = [];
+      return quickQuoteNoteHistory[key];
+    }
+
+    function rememberQuickQuoteNote(note) {
+      const value = String(note || "").trim();
+      if (!value) return;
+      const history = currentQuickQuoteNoteHistory();
+      quickQuoteNoteHistory[activeQuickCustomerKey] = [
+        value,
+        ...history.filter(item => item !== value)
+      ].slice(0, 8);
+      renderQuickQuoteNoteHistory();
+    }
+
+    function removeQuickQuoteNote(index) {
+      const history = currentQuickQuoteNoteHistory();
+      history.splice(Number(index), 1);
+      renderQuickQuoteNoteHistory();
+    }
+
+    function renderQuickQuoteNoteHistory() {
+      const container = document.getElementById("quoteCommonNotes");
+      if (!container) return;
+      const history = currentQuickQuoteNoteHistory();
+      container.innerHTML = history.length
+        ? `<span class="quote-common-notes-label">常用备注</span>${history.map((note, index) => `
+            <button type="button" class="quote-common-note" data-note-index="${index}" title="点击填入备注">
+              <span class="quote-common-note-text">${escapeHtml(note)}</span>
+              <span class="quote-common-note-remove" data-note-remove="true" aria-label="删除常用备注">×</span>
+            </button>
+          `).join("")}`
+        : "";
+    }
+
     function saveCurrentQuickQuoteTextConfig() {
       const identity = currentQuickCustomerIdentity();
       const key = activeQuickCustomerKey || identity.code || identity.name || "default";
       const openingInput = document.getElementById("quoteOpeningText");
       const endingInput = document.getElementById("quoteGlobalNote");
+      const includeQuoteTimeInput = document.querySelector('[data-format="includeQuoteTime"]');
       const previous = normalizeQuoteTextConfig(quickQuoteTextConfigs[key], identity);
+      const nextEnding = endingInput ? endingInput.value : previous.ending;
       quickQuoteTextConfigs[key] = {
         opening: openingInput ? openingInput.value : previous.opening,
-        ending: endingInput ? endingInput.value : previous.ending
+        ending: nextEnding,
+        includeQuoteTime: includeQuoteTimeInput ? includeQuoteTimeInput.checked : previous.includeQuoteTime
       };
       return quickQuoteTextConfigs[key];
     }
@@ -6022,6 +6128,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const endingInput = document.getElementById("quoteGlobalNote");
       if (openingInput && openingInput.value !== config.opening) openingInput.value = config.opening;
       if (endingInput && endingInput.value !== config.ending) endingInput.value = config.ending;
+      if (endingInput) endingInput.dataset.noteSavedValue = endingInput.value;
+      renderQuickQuoteNoteHistory();
       if (typeof window.refreshQuickQuotePreviewFormatter === "function") {
         window.refreshQuickQuotePreviewFormatter({ keepSelection: true });
       }
@@ -6151,6 +6259,10 @@ HKD-TT/CNH-TT： 2.654661329</div>
     window.currentQuickQuoteTextConfig = currentQuickQuoteTextConfig;
     window.saveCurrentQuickQuoteTextConfig = saveCurrentQuickQuoteTextConfig;
     window.syncQuickQuoteToBatch = syncQuickQuoteToBatch;
+    window.currentQuickQuoteNoteHistory = currentQuickQuoteNoteHistory;
+    window.rememberQuickQuoteNote = rememberQuickQuoteNote;
+    window.removeQuickQuoteNote = removeQuickQuoteNote;
+    window.renderQuickQuoteNoteHistory = renderQuickQuoteNoteHistory;
 
     function roundingLabel(mode) {
       if (mode === "up") return "向上";
@@ -7122,7 +7234,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
     let pendingFormulaAdjustItems = [];
     let batchQuoteCustomerFilter = "";
     let batchQuoteTypeFilter = "";
-    const batchQuoteDeselectedKeys = new Set();
+    const batchQuoteSelectedKeys = new Set();
 
     // 辅助工具函数
 
@@ -7196,7 +7308,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
     function batchQuoteCopyText(customer, quotes = null) {
       const config = quoteTextConfigForCustomer(customer);
       const body = quotes ? batchQuoteTextFromQuotes(customer, quotes) : batchQuoteText(customer);
-      return composeQuoteCopyText(config.opening, body, config.ending);
+      const ending = [
+        config.ending,
+        config.includeQuoteTime ? `報價時間：${currentTimeText()}` : ""
+      ].filter(Boolean).join("\n");
+      return composeQuoteCopyText(config.opening, body, ending);
     }
 
     function batchQuoteValue(customer, quote) {
@@ -7250,7 +7366,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
     }
 
     function isBatchQuoteSelected(key) {
-      return !batchQuoteDeselectedKeys.has(key);
+      return batchQuoteSelectedKeys.has(key);
     }
 
     function batchSelectedVisibleCount(group) {
@@ -7281,8 +7397,8 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const quote = ensureBatchQuotes(customer)[quoteIndex];
       if (!quote) return;
       const key = batchQuoteKey(customer, quote, quoteIndex);
-      if (checked) batchQuoteDeselectedKeys.delete(key);
-      else batchQuoteDeselectedKeys.add(key);
+      if (checked) batchQuoteSelectedKeys.add(key);
+      else batchQuoteSelectedKeys.delete(key);
       renderResults();
     }
 
@@ -7293,18 +7409,21 @@ HKD-TT/CNH-TT： 2.654661329</div>
       ensureBatchQuotes(customer).forEach((quote, quoteIndex) => {
         if (!batchQuoteMatchesType(quote)) return;
         const key = batchQuoteKey(customer, quote, quoteIndex);
-        if (checked) batchQuoteDeselectedKeys.delete(key);
-        else batchQuoteDeselectedKeys.add(key);
+        if (checked) batchQuoteSelectedKeys.add(key);
+        else batchQuoteSelectedKeys.delete(key);
       });
       renderResults();
     }
+
+    window.toggleBatchQuoteRow = toggleBatchQuoteRow;
+    window.toggleBatchCustomerQuotes = toggleBatchCustomerQuotes;
 
     function selectVisibleBatchQuotes(checked) {
       const group = groupData.find(g => g.id === currentGroupId);
       activeBatchVisibleEntries(group).forEach(entry => {
         entry.quotes.forEach(item => {
-          if (checked) batchQuoteDeselectedKeys.delete(item.key);
-          else batchQuoteDeselectedKeys.add(item.key);
+          if (checked) batchQuoteSelectedKeys.add(item.key);
+          else batchQuoteSelectedKeys.delete(item.key);
         });
       });
       renderResults();
@@ -7374,7 +7493,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
       if (nextIndex < 0 || nextIndex >= quotes.length) return;
       [quotes[quoteIndex], quotes[nextIndex]] = [quotes[nextIndex], quotes[quoteIndex]];
       customer.quotes = quotes;
-      batchQuoteDeselectedKeys.clear();
+      batchQuoteSelectedKeys.clear();
       syncCustomerQuoteSnapshotsToRelatedViews(customer, quotes);
       renderResults();
       if (activeQuickCustomerKey === customerIdentityFromCustomer(customer).code) {
@@ -7581,7 +7700,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
             <div class="card-head">
               <div class="card-title-group">
                 <label class="batch-card-check-wrap" title="勾選該客戶目前可見的全部報價">
-                  <input type="checkbox" data-batch-card-check data-partial="${cardPartial ? 'true' : 'false'}" ${cardChecked ? 'checked' : ''} onchange="toggleBatchCustomerQuotes(${idx}, this.checked)">
+                  <input type="checkbox" data-batch-card-check data-customer-index="${idx}" data-partial="${cardPartial ? 'true' : 'false'}" ${cardChecked ? 'checked' : ''}>
                 </label>
                 <span class="card-cust-name">${escapeHtml(c.name)}</span>
                 <span class="card-tag">${escapeHtml(c.tag)}</span>
@@ -7599,7 +7718,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
               return `
               <div class="quote-row batch-quote-selectable-row">
                 <label class="batch-row-check-wrap" title="勾選後加入合併複製">
-                  <input type="checkbox" ${isBatchQuoteSelected(item.key) ? 'checked' : ''} onchange="toggleBatchQuoteRow(${idx}, ${item.quoteIndex}, this.checked)">
+                  <input type="checkbox" data-batch-quote-check data-customer-index="${idx}" data-quote-index="${item.quoteIndex}" ${isBatchQuoteSelected(item.key) ? 'checked' : ''}>
                 </label>
                 <span class="batch-quote-order-actions" title="調整報價順序">
                   <button type="button" class="batch-order-btn" onclick="event.preventDefault(); event.stopPropagation(); moveBatchQuoteItem(${idx}, ${item.quoteIndex}, -1)" ${canMoveUp ? "" : "disabled"} title="上移" aria-label="上移">↑</button>
@@ -7614,6 +7733,20 @@ HKD-TT/CNH-TT： 2.654661329</div>
           </div>
         `;
       }).join('');
+
+      if (!container.dataset.selectionControlsBound) {
+        container.addEventListener("change", (event) => {
+          const input = event.target;
+          if (!(input instanceof HTMLInputElement) || input.type !== "checkbox") return;
+          event.stopPropagation();
+          if (input.matches("[data-batch-card-check]")) {
+            toggleBatchCustomerQuotes(Number(input.dataset.customerIndex), input.checked);
+          } else if (input.matches("[data-batch-quote-check]")) {
+            toggleBatchQuoteRow(Number(input.dataset.customerIndex), Number(input.dataset.quoteIndex), input.checked);
+          }
+        }, true);
+        container.dataset.selectionControlsBound = "true";
+      }
 
       requestAnimationFrame(() => {
         container.querySelectorAll('[data-batch-card-check][data-partial="true"]').forEach(input => {
@@ -8402,8 +8535,14 @@ HKD-TT/CNH-TT： 2.654661329</div>
     const state = {
       groupByType: true,
       includeSuffix: true,
+      includeQuoteTime: false,
       opening: '',
       ending: '',
+      noteSavedValue: '',
+      noteHistory: [],
+      noteHistories: {},
+      noteHistoryTimer: null,
+      noteCustomerKey: '',
       items: [],
       selected: new Set(),
       selfUpdating: false
@@ -8474,15 +8613,64 @@ HKD-TT/CNH-TT： 2.654661329</div>
       const config = typeof window.currentQuickQuoteTextConfig === 'function'
         ? window.currentQuickQuoteTextConfig()
         : {};
+      syncLocalNoteCustomer();
       const openingInput = document.getElementById('quoteOpeningText');
       const endingInput = document.getElementById('quoteGlobalNote');
       state.opening = openingInput ? openingInput.value : config.opening || '';
       state.ending = endingInput ? endingInput.value : config.ending || '';
     }
 
+    function currentNoteCustomerKey() {
+      return document.getElementById('customerSearch')?.value || 'default';
+    }
+
+    function syncLocalNoteCustomer() {
+      const key = currentNoteCustomerKey();
+      if (state.noteCustomerKey === key) return;
+      if (state.noteCustomerKey) state.noteHistories[state.noteCustomerKey] = state.noteHistory;
+      state.noteCustomerKey = key;
+      state.noteHistory = state.noteHistories[key] || [];
+    }
+
+    function renderCommonNotes() {
+      const container = document.getElementById('quoteCommonNotes');
+      if (!container) return;
+      state.noteHistory = state.noteHistory
+        .map(note => String(note || '').trim())
+        .filter((note, index, notes) => {
+          if (note.length < 4) return false;
+          if (/[a-z]/i.test(note) && (/[\s]/.test(note) || /^\d/.test(note)) && !/[：:]/.test(note)) return false;
+          return !notes.some((other, otherIndex) => (
+            otherIndex !== index && other.length > note.length && other.includes(note)
+          ));
+        })
+        .filter((note, index, notes) => notes.indexOf(note) === index);
+      state.noteHistories[state.noteCustomerKey] = state.noteHistory;
+      container.innerHTML = state.noteHistory.length
+        ? `<span class="quote-common-notes-label">常用备注</span>${state.noteHistory.map((note, index) => `
+            <button type="button" class="quote-common-note" data-local-note-index="${index}" data-note-value="${escapeHtml(note)}" title="点击填入备注">
+              <span class="quote-common-note-text">${escapeHtml(note)}</span>
+              <span class="quote-common-note-remove" data-local-note-remove="true" aria-label="删除常用备注">×</span>
+            </button>
+          `).join('')}`
+        : '';
+    }
+
+    function rememberLocalNote(note) {
+      const value = String(note || '').trim();
+      if (!value) return;
+      state.noteHistory = [value, ...state.noteHistory.filter(item => item !== value)].slice(0, 8);
+      state.noteHistories[state.noteCustomerKey] = state.noteHistory;
+      renderCommonNotes();
+    }
+
     function buildCopyText() {
       refreshTextStateFromInputs();
-      return [state.opening, formatQuoteBody(state.items), state.ending]
+      const ending = [
+        state.ending,
+        state.includeQuoteTime ? `報價時間：${currentTimeText()}` : ''
+      ].filter(Boolean).join('\n');
+      return [state.opening, formatQuoteBody(state.items), ending]
         .map((part) => String(part || '').trim())
         .filter(Boolean)
         .join('\n');
@@ -8546,6 +8734,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
             <div class="quote-format-title">导出格式配置</div>
             <label class="quote-format-option">按交易类型分组 <input type="checkbox" data-format="groupByType" checked></label>
             <label class="quote-format-option">包含后缀 <input type="checkbox" data-format="includeSuffix" checked></label>
+            <label class="quote-format-option">包含报价时间 <input type="checkbox" data-format="includeQuoteTime"></label>
           </div>
         </div>
       `;
@@ -8562,6 +8751,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
         : {};
       state.opening = textConfig.opening || '';
       state.ending = textConfig.ending || '';
+      state.includeQuoteTime = !!textConfig.includeQuoteTime;
 
       const openingPanel = document.createElement('div');
       openingPanel.className = 'quote-output-prefix';
@@ -8588,10 +8778,15 @@ HKD-TT/CNH-TT： 2.654661329</div>
           <span>報價結尾</span>
           <span>按客戶自動保存，複製時附加到報價文本末尾</span>
         </div>
-        <textarea id="quoteGlobalNote" class="quote-output-note-input" placeholder="可輸入本次報價結尾">${escapeHtml(state.ending)}</textarea>
+        <input id="quoteGlobalNote" class="quote-output-note-input" type="text" value="${escapeHtml(state.ending)}" placeholder="可輸入本次報價結尾" />
+        <div id="quoteCommonNotes" class="quote-common-notes"></div>
       `;
       output.insertAdjacentElement('afterend', notePanel);
       notePanel.insertAdjacentElement('afterend', panel);
+      state.noteCustomerKey = currentNoteCustomerKey();
+      state.noteHistory = state.noteHistories[state.noteCustomerKey] || [];
+      state.noteSavedValue = state.ending;
+      renderCommonNotes();
 
       const formatBtn = document.getElementById('quoteFormatBtn');
       const formatMenu = document.getElementById('quoteFormatMenu');
@@ -8611,6 +8806,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
         if (!(target instanceof HTMLInputElement)) return;
         if (target.dataset.format) {
           state[target.dataset.format] = target.checked;
+          if (target.dataset.format === 'includeQuoteTime'
+            && typeof window.saveCurrentQuickQuoteTextConfig === 'function') {
+            window.saveCurrentQuickQuoteTextConfig();
+            if (typeof window.syncQuickQuoteToBatch === 'function') window.syncQuickQuoteToBatch();
+          }
           applyPreview({ items: state.items });
           return;
         }
@@ -8623,12 +8823,42 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
       const openingInput = document.getElementById('quoteOpeningText');
       const noteInput = document.getElementById('quoteGlobalNote');
+      const commonNotes = document.getElementById('quoteCommonNotes');
+      commonNotes && commonNotes.addEventListener('click', (event) => {
+        const noteButton = event.target.closest('[data-local-note-index]');
+        if (!noteButton) return;
+        event.preventDefault();
+        const index = Number(noteButton.dataset.localNoteIndex);
+        if (event.target.closest('[data-local-note-remove]')) {
+          state.noteHistory.splice(index, 1);
+          renderCommonNotes();
+          return;
+        }
+        if (noteInput && state.noteHistory[index] !== undefined) {
+          noteInput.value = state.noteHistory[index];
+          noteInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+      if (noteInput) noteInput.dataset.noteSavedValue = noteInput.value;
       [openingInput, noteInput].forEach((input) => {
         input && input.addEventListener('input', () => {
           refreshTextStateFromInputs();
           if (typeof window.saveCurrentQuickQuoteTextConfig === 'function') window.saveCurrentQuickQuoteTextConfig();
           if (typeof window.syncQuickQuoteToBatch === 'function') window.syncQuickQuoteToBatch();
         });
+      });
+      noteInput && noteInput.addEventListener('change', () => {
+        state.noteSavedValue = noteInput.value || '';
+      });
+      noteInput && noteInput.addEventListener('input', () => {
+        window.clearTimeout(state.noteHistoryTimer);
+        state.noteHistoryTimer = window.setTimeout(() => {
+          const current = noteInput.value || '';
+          if (state.noteSavedValue.trim() && state.noteSavedValue.trim() !== current.trim()) {
+            rememberLocalNote(state.noteSavedValue);
+          }
+          state.noteSavedValue = current;
+        }, 350);
       });
 
       const observer = new MutationObserver(() => {
@@ -8640,6 +8870,7 @@ HKD-TT/CNH-TT： 2.654661329</div>
 
       const initial = parseQuoteText(output.textContent);
       applyPreview(initial, { forceSelectAll: true });
+      if (typeof window.renderQuickQuoteNoteHistory === 'function') window.renderQuickQuoteNoteHistory();
     }
 
     window.buildCurrentQuickQuoteCopyText = buildCopyText;
@@ -8652,6 +8883,11 @@ HKD-TT/CNH-TT： 2.654661329</div>
         : {};
       if (openingInput) openingInput.value = config.opening || '';
       if (endingInput) endingInput.value = config.ending || '';
+      const includeQuoteTimeInput = document.querySelector('[data-format="includeQuoteTime"]');
+      if (includeQuoteTimeInput) {
+        includeQuoteTimeInput.checked = !!config.includeQuoteTime;
+        state.includeQuoteTime = includeQuoteTimeInput.checked;
+      }
       refreshTextStateFromInputs();
       if (output) applyPreview(parseQuoteText(output.textContent), options);
     };
